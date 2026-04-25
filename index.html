@@ -30,7 +30,7 @@
                 <a href="#men-collection">New & Featured</a>
                 <a href="#men-collection">Men</a>
                 <a href="#women-collection">Women</a>
-                <a href="#categories">Sale</a>
+                <a href="#categories">Categories</a>
             </nav>
             <div class="nav-actions">
                 <div class="search-container">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-actions">
                         <button class="btn btn-black" id="modalAddToCart">Add to Bag</button>
-                        <button class="btn btn-outline trigger-checkout" id="modalBuyNow">Favorite</button>
+                        <button class="btn btn-outline trigger-checkout" id="modalBuyNow">Buy Now</button>
                     </div>
                 </div>
             </div>
@@ -99,15 +99,15 @@
         <div class="modal-content checkout-modal">
             <button class="close-btn modal-close" id="closeCheckoutModal">&times;</button>
             <h2>Checkout</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Enter your details below.</p>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Enter your details to complete purchase.</p>
             <form id="checkoutForm">
                 <div class="form-row"><input type="text" placeholder="First Name" required><input type="text" placeholder="Last Name" required></div>
-                <input type="email" class="full-input" placeholder="Email" required>
-                <input type="text" class="full-input" placeholder="Address" required>
+                <input type="email" class="full-input" placeholder="Email Address" required>
+                <input type="text" class="full-input" placeholder="Shipping Address" required>
                 <div class="form-row"><input type="text" placeholder="City" required><input type="text" placeholder="Postal Code" required></div>
                 <div class="checkout-summary">
                     <h4>Summary</h4>
-                    <div class="summary-row"><span>Total</span><span>$<span id="checkoutTotalDisplay">0</span></span></div>
+                    <div class="summary-row"><span>Total to Pay</span><span>$<span id="checkoutTotalDisplay">0.00</span></span></div>
                 </div>
                 <button type="submit" class="btn btn-black" style="width: 100%;">Place Order</button>
             </form>
@@ -115,13 +115,13 @@
     </div>
 
     <section class="hero-bleed">
-        <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1920" alt="Hero" class="hero-bg">
-        <div class="hero-content-center reveal">
+        <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1920" alt="Hero Background" class="hero-bg">
+        <div class="hero-content-center">
             <h4>Just Dropped</h4>
             <h1>STEP INTO BETTER</h1>
             <p>Engineered to the exact specifications of everyday athletes.</p>
             <div class="hero-actions">
-                <button class="btn btn-black trigger-checkout">Shop</button>
+                <button class="btn btn-black trigger-checkout">Shop All</button>
                 <a href="#categories" class="btn btn-white">Explore</a>
             </div>
         </div>
@@ -129,12 +129,12 @@
 
     <section class="section-padding" id="men-collection">
         <div class="container">
-            <div class="section-header reveal">
-                <h2>Trending This Week</h2>
+            <div class="section-header">
+                <h2>Trending Men's</h2>
             </div>
-            <div class="carousel-container reveal">
+            <div class="carousel-container">
                 <div class="product-card" data-id="nova">
-                    <div class="product-img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=400" alt="Nova"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600" alt="Nova"></div>
                     <div class="product-info">
                         <div class="product-name">Bedre Nova</div>
                         <div class="product-cat">Men's Running Shoe</div>
@@ -143,7 +143,7 @@
                     <button class="btn btn-outline view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
                 </div>
                 <div class="product-card" data-id="arc">
-                    <div class="product-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=400" alt="Arc"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=600" alt="Arc"></div>
                     <div class="product-info">
                         <div class="product-name">Bedre Arc</div>
                         <div class="product-cat">Men's Lifestyle Shoe</div>
@@ -152,48 +152,70 @@
                     <button class="btn btn-outline view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
                 </div>
                 <div class="product-card" data-id="core">
-                    <div class="product-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=400" alt="Core"></div>
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600" alt="Core"></div>
                     <div class="product-info">
                         <div class="product-name">Bedre Core</div>
-                        <div class="product-cat">Men's Shoe</div>
+                        <div class="product-cat">Men's Casual Shoe</div>
                         <div class="product-price">$125</div>
                     </div>
                     <button class="btn btn-outline view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
                 </div>
-                 <div class="product-card" data-id="apex">
-                    <div class="product-img"><img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&q=80&w=400" alt="Apex"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" style="padding-bottom: 4rem;">
+        <h2 style="margin-bottom: 1.5rem;">Featured</h2>
+        <div class="promo-image-container">
+            <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=1920" alt="Promo">
+            <div class="promo-text">
+                <h1 style="color: #fff;">BEDRE APEX PRO</h1>
+                <p style="color: #fff;">The latest in lightweight performance.</p>
+                <button class="btn btn-white" onclick="openProductModal('apex')">Shop the Drop</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="women-collection" style="background-color: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trending Women's</h2>
+            </div>
+            <div class="carousel-container">
+                <div class="product-card" data-id="aura">
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&q=80&w=600" alt="Aura"></div>
                     <div class="product-info">
-                        <div class="product-name">Bedre Apex Pro</div>
-                        <div class="product-cat">Men's Performance Shoe</div>
-                        <div class="product-price">$185</div>
+                        <div class="product-name">Bedre Aura</div>
+                        <div class="product-cat">Women's Running Shoe</div>
+                        <div class="product-price">$170</div>
                     </div>
-                    <button class="btn btn-outline view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
+                    <button class="btn btn-black view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
+                </div>
+                <div class="product-card" data-id="luna">
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&q=80&w=600" alt="Luna"></div>
+                    <div class="product-info">
+                        <div class="product-name">Bedre Luna</div>
+                        <div class="product-cat">Women's Lifestyle Shoe</div>
+                        <div class="product-price">$145</div>
+                    </div>
+                    <button class="btn btn-black view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
+                </div>
+                <div class="product-card" data-id="zenith">
+                    <div class="product-img"><img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&q=80&w=600" alt="Zenith"></div>
+                    <div class="product-info">
+                        <div class="product-name">Bedre Zenith</div>
+                        <div class="product-cat">Women's Casual Shoe</div>
+                        <div class="product-price">$130</div>
+                    </div>
+                    <button class="btn btn-black view-product-btn" style="width:100%; margin-top:1rem;">View Details</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="promo-block container reveal" id="women-collection">
-        <h2>Featured</h2>
-        <div class="promo-image-container">
-            <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=1920" alt="Promo">
-            <div class="promo-text">
-                <h1>BEDRE LUNA</h1>
-                <p>The latest in lightweight lifestyle.</p>
-                <button class="btn btn-white view-product-btn" onclick="document.querySelector('[data-id=\'luna\'] .view-product-btn').click();">Shop</button>
-            </div>
-        </div>
-    </section>
-
-    <div style="display:none;">
-        <div class="product-card" data-id="luna"><button class="view-product-btn"></button></div>
-        <div class="product-card" data-id="aura"><button class="view-product-btn"></button></div>
-        <div class="product-card" data-id="zenith"><button class="view-product-btn"></button></div>
-    </div>
-
     <section class="section-padding container" id="categories">
-        <h2 class="reveal" style="margin-bottom: 2rem;">The Essentials</h2>
-        <div class="essentials-grid reveal">
+        <h2 style="margin-bottom: 2rem;">The Essentials</h2>
+        <div class="essentials-grid">
             <div class="essential-card filter-category" data-category="Running">
                 <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&q=80&w=800" alt="Running">
                 <button class="btn btn-white essential-btn">Running</button>
@@ -202,9 +224,9 @@
                 <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=800" alt="Lifestyle">
                 <button class="btn btn-white essential-btn">Lifestyle</button>
             </div>
-            <div class="essential-card filter-category" data-category="Performance">
+            <div class="essential-card filter-category" data-category="Casual">
                 <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=800" alt="Performance">
-                <button class="btn btn-white essential-btn">Performance</button>
+                <button class="btn btn-white essential-btn">Casual</button>
             </div>
         </div>
     </section>
@@ -242,6 +264,6 @@
         </div>
     </footer>
 
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
