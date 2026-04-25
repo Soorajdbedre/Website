@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BEDRE</title>
-  <link rel="stylesheet" href="styles.css"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BEDRE</title>
+<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
@@ -21,16 +21,19 @@
   <div class="logo">BEDRE</div>
 
   <nav class="nav">
-    <a>New & Featured</a>
-    <a>Men</a>
-    <a>Women</a>
-    <a>Sale</a>
+    <a href="#">New & Featured</a>
+    <a href="#">Men</a>
+    <a href="#">Women</a>
+    <a href="#">Sale</a>
   </nav>
 
   <div class="actions">
-    <input type="text" id="searchInput" placeholder="Search"/>
-    <span id="cartIcon">🛍️ <span id="cartCount">0</span></span>
-    <div id="searchResults" class="search-results"></div>
+    <input id="searchInput" aria-label="Search products" placeholder="Search"/>
+    <div id="searchResults" class="search-results" role="listbox"></div>
+
+    <button id="cartBtn" aria-label="Open cart">
+      🛍️ <span id="cartCount">0</span>
+    </button>
   </div>
 </header>
 
@@ -43,16 +46,15 @@
   </div>
 </section>
 
-<!-- MEN -->
+<!-- PRODUCT ROWS -->
 <section class="scroll-section">
   <h2>Trending Men's</h2>
-  <div class="scroll-row" id="menRow"></div>
+  <div id="menRow" class="scroll-row"></div>
 </section>
 
-<!-- WOMEN -->
 <section class="scroll-section">
   <h2>Trending Women's</h2>
-  <div class="scroll-row" id="womenRow"></div>
+  <div id="womenRow" class="scroll-row"></div>
 </section>
 
 <!-- PROMO -->
@@ -73,30 +75,20 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-    <div>
-      <h4>Find a Store</h4>
-      <p>Store Locator</p>
-    </div>
-    <div>
-      <h4>Get Help</h4>
-      <p>Order Status</p>
-      <p>Returns</p>
-    </div>
-    <div>
-      <h4>About Bedre</h4>
-      <p>News</p>
-      <p>Careers</p>
-    </div>
+    <div><h4>Find a Store</h4></div>
+    <div><h4>Get Help</h4></div>
+    <div><h4>About Bedre</h4></div>
   </div>
   <p class="legal">© 2026 Bedre</p>
 </footer>
 
-<!-- MODALS -->
-<div id="productModal" class="modal"></div>
+<!-- OVERLAYS -->
+<div id="overlay" class="overlay"></div>
+
+<div id="productModal" class="modal" role="dialog"></div>
 <div id="categoryModal" class="modal"></div>
 <div id="checkoutModal" class="modal"></div>
 
-<!-- CART -->
 <div id="cartPanel" class="cart-panel"></div>
 
 <script src="script.js"></script>
