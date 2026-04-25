@@ -1,242 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bedre | Just Do Better</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BEDRE</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-    <div class="pre-header">
-        <div class="container pre-header-nav">
-            <a href="#">Find a Store</a>
-            <span>|</span>
-            <a href="#">Help</a>
-            <span>|</span>
-            <a href="#">Join Us</a>
-            <span>|</span>
-            <a href="#">Sign In</a>
-        </div>
+<!-- PRE HEADER -->
+<div class="pre-header">
+  <span>Find a Store</span>
+  <span>Help</span>
+  <span>Join Us</span>
+  <span>Sign In</span>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">BEDRE</div>
+
+  <nav class="nav">
+    <a>New & Featured</a>
+    <a>Men</a>
+    <a>Women</a>
+    <a>Sale</a>
+  </nav>
+
+  <div class="actions">
+    <input type="text" id="searchInput" placeholder="Search"/>
+    <span id="cartIcon">🛍️ <span id="cartCount">0</span></span>
+    <div id="searchResults" class="search-results"></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p>First Look</p>
+    <h1>BEDRE APEX PRO</h1>
+    <button>Shop</button>
+  </div>
+</section>
+
+<!-- MEN -->
+<section class="scroll-section">
+  <h2>Trending Men's</h2>
+  <div class="scroll-row" id="menRow"></div>
+</section>
+
+<!-- WOMEN -->
+<section class="scroll-section">
+  <h2>Trending Women's</h2>
+  <div class="scroll-row" id="womenRow"></div>
+</section>
+
+<!-- PROMO -->
+<section class="promo">
+  <div class="promo-content">
+    <h1>BEDRE LUNA</h1>
+    <button class="white-btn">Shop Now</button>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="category" data-cat="Running">Running</div>
+  <div class="category" data-cat="Lifestyle">Lifestyle</div>
+  <div class="category" data-cat="Casual">Casual</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>Find a Store</h4>
+      <p>Store Locator</p>
     </div>
-
-    <header class="main-header">
-        <div class="container header-content">
-            <a href="#" class="logo">BEDRE</a>
-            
-            <nav class="center-nav">
-                <a href="#new">New & Featured</a>
-                <a href="#men">Men</a>
-                <a href="#women">Women</a>
-                <a href="#sale">Sale</a>
-            </nav>
-            
-            <div class="header-actions">
-                <div class="search-box">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M21.71 20.29l-5.01-5.01C17.54 13.68 18 11.91 18 10c0-4.41-3.59-8-8-8s-8 3.59-8 8 3.59 8 8 8c1.91 0 3.68-.46 5.28-1.3l5.01 5.01c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zM4 10c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z"></path></svg>
-                    <input type="text" placeholder="Search" id="searchInput">
-                </div>
-                <button class="icon-btn" id="cartBtn">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M16 7a1 1 0 0 1-1-1V3H9v3a1 1 0 0 1-2 0V3a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3a1 1 0 0 1-1 1z"></path><path d="M20 5H4a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zM4 7h16v15H4V7z"></path></svg>
-                    <span class="cart-badge" id="cartBadge">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <div class="overlay" id="cartOverlay"></div>
-    <div class="side-panel" id="cartPanel">
-        <div class="panel-header">
-            <h2>Bag</h2>
-            <button class="close-btn" id="closeCart">&times;</button>
-        </div>
-        <div class="panel-body" id="cartItems">
-            <p class="empty-msg">There are no items in your bag.</p>
-        </div>
-        <div class="panel-footer">
-            <div class="summary-line">
-                <span>Total</span>
-                <span>$<span id="cartTotal">0.00</span></span>
-            </div>
-            <button class="btn btn-black w-100" id="checkoutBtn">Checkout</button>
-        </div>
+    <div>
+      <h4>Get Help</h4>
+      <p>Order Status</p>
+      <p>Returns</p>
     </div>
-
-    <div class="overlay" id="productOverlay"></div>
-    <div class="quick-view-modal" id="productModal">
-        <button class="close-btn modal-close" id="closeProduct">&times;</button>
-        <div class="qv-grid">
-            <div class="qv-image">
-                <img id="modalImg" src="" alt="Product Image">
-            </div>
-            <div class="qv-info">
-                <h1 id="modalName">Product Name</h1>
-                <h3 id="modalCat">Category</h3>
-                <p class="qv-price" id="modalPrice">$0.00</p>
-                <p class="qv-desc" id="modalDesc">Description goes here.</p>
-                <button class="btn btn-black w-100" id="addToCartBtn" style="margin-top: 2rem;">Add to Bag</button>
-                <button class="btn btn-outline w-100" style="margin-top: 1rem;">Favorite</button>
-            </div>
-        </div>
+    <div>
+      <h4>About Bedre</h4>
+      <p>News</p>
+      <p>Careers</p>
     </div>
+  </div>
+  <p class="legal">© 2026 Bedre</p>
+</footer>
 
-    <section class="hero" id="new">
-        <div class="hero-image-wrapper">
-            <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=1920" alt="Hero Shoe">
-        </div>
-        <div class="hero-text container text-center">
-            <p class="hero-eyebrow">First Look</p>
-            <h1 class="hero-headline">BEDRE APEX PRO</h1>
-            <p class="hero-subline">Engineered to the exact specifications of world-class runners.</p>
-            <div class="hero-buttons">
-                <button class="btn btn-black">Shop</button>
-            </div>
-        </div>
-    </section>
+<!-- MODALS -->
+<div id="productModal" class="modal"></div>
+<div id="categoryModal" class="modal"></div>
+<div id="checkoutModal" class="modal"></div>
 
-    <section class="container section-margin" id="men">
-        <div class="section-title-row">
-            <h2>Trending Men's</h2>
-        </div>
-        <div class="horizontal-scroller">
-            <div class="product-card" onclick="openProduct('nova')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=600" alt="Nova">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Nova</h4>
-                    <p class="prod-cat">Men's Running Shoe</p>
-                    <p class="prod-price">$165</p>
-                </div>
-            </div>
-            <div class="product-card" onclick="openProduct('arc')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&q=80&w=600" alt="Arc">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Arc</h4>
-                    <p class="prod-cat">Men's Lifestyle Shoe</p>
-                    <p class="prod-price">$140</p>
-                </div>
-            </div>
-            <div class="product-card" onclick="openProduct('core')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600" alt="Core">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Core</h4>
-                    <p class="prod-cat">Men's Shoe</p>
-                    <p class="prod-price">$125</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- CART -->
+<div id="cartPanel" class="cart-panel"></div>
 
-    <section class="container section-margin">
-        <div class="section-title-row">
-            <h2>Featured</h2>
-        </div>
-        <div class="featured-block" onclick="openProduct('luna')">
-            <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&q=80&w=1920" alt="Featured">
-            <div class="featured-content text-center">
-                <h1>BEDRE LUNA</h1>
-                <p>The latest in lightweight, breathable design for everyday wear.</p>
-                <button class="btn btn-white">Shop Now</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="container section-margin" id="women">
-        <div class="section-title-row">
-            <h2>Trending Women's</h2>
-        </div>
-        <div class="horizontal-scroller">
-            <div class="product-card" onclick="openProduct('aura')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&q=80&w=600" alt="Aura">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Aura</h4>
-                    <p class="prod-cat">Women's Running Shoe</p>
-                    <p class="prod-price">$170</p>
-                </div>
-            </div>
-            <div class="product-card" onclick="openProduct('luna')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&q=80&w=600" alt="Luna">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Luna</h4>
-                    <p class="prod-cat">Women's Lifestyle Shoe</p>
-                    <p class="prod-price">$145</p>
-                </div>
-            </div>
-            <div class="product-card" onclick="openProduct('zenith')">
-                <div class="prod-img-box">
-                    <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&q=80&w=600" alt="Zenith">
-                </div>
-                <div class="prod-details">
-                    <h4 class="prod-name">Bedre Zenith</h4>
-                    <p class="prod-cat">Women's Shoe</p>
-                    <p class="prod-price">$130</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container section-margin" id="sale">
-        <div class="section-title-row">
-            <h2>Always Iconic</h2>
-        </div>
-        <div class="iconic-grid">
-            <div class="iconic-card">
-                <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&q=80&w=800" alt="Running">
-                <div class="iconic-label">Running</div>
-            </div>
-            <div class="iconic-card">
-                <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=800" alt="Lifestyle">
-                <div class="iconic-label">Lifestyle</div>
-            </div>
-            <div class="iconic-card">
-                <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&q=80&w=800" alt="Performance">
-                <div class="iconic-label">Performance</div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            <div class="footer-col footer-main-links">
-                <a href="#">FIND A STORE</a>
-                <a href="#">BECOME A MEMBER</a>
-                <a href="#">SEND US FEEDBACK</a>
-            </div>
-            <div class="footer-col">
-                <h4>GET HELP</h4>
-                <a href="#">Order Status</a>
-                <a href="#">Delivery</a>
-                <a href="#">Returns</a>
-                <a href="#">Payment Options</a>
-            </div>
-            <div class="footer-col">
-                <h4>ABOUT BEDRE</h4>
-                <a href="#">News</a>
-                <a href="#">Careers</a>
-                <a href="#">Investors</a>
-                <a href="#">Sustainability</a>
-            </div>
-        </div>
-        <div class="container footer-bottom">
-            <p>&copy; 2026 Bedre, Inc. All Rights Reserved</p>
-            <div class="footer-legal">
-                <a href="#">Guides</a>
-                <a href="#">Terms of Sale</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
