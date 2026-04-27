@@ -1,96 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BEDRE</title>
-<link rel="stylesheet" href="styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedre - Scandinavian for Better</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Pre-Header -->
+    <div class="pre-header">
+        <div class="container">
+            <a href="#">Find a Store</a>
+            <span class="divider"></span>
+            <a href="#">Help</a>
+            <span class="divider"></span>
+            <a href="#">Join Us</a>
+            <span class="divider"></span>
+            <a href="#">Sign In</a>
+        </div>
+    </div>
 
-<!-- PRE HEADER -->
-<div class="pre-header">
-  <span>Find a Store</span>
-  <span>Help</span>
-  <span>Join Us</span>
-  <span>Sign In</span>
-</div>
+    <!-- Main Header -->
+    <header class="main-header" id="mainHeader">
+        <a href="#" class="logo">Bedre</a>
+        <nav>
+            <ul class="nav-center" id="navCenter">
+                <li><a href="#">New &amp; Featured</a></li>
+                <li><a href="#">Men</a></li>
+                <li><a href="#">Women</a></li>
+                <li><a href="#">Sale</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <div class="search-wrapper" id="searchWrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search" autocomplete="off">
+                <div class="search-dropdown" id="searchDropdown"></div>
+            </div>
+            <button class="icon-btn cart-icon-btn" id="cartIconBtn" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 01-8 0"/>
+                </svg>
+                <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+            </button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="logo">BEDRE</div>
+    <!-- Mobile Nav -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#">New &amp; Featured</a>
+        <a href="#">Men</a>
+        <a href="#">Women</a>
+        <a href="#">Sale</a>
+    </div>
 
-  <nav class="nav">
-    <a href="#">New & Featured</a>
-    <a href="#">Men</a>
-    <a href="#">Women</a>
-    <a href="#">Sale</a>
-  </nav>
+    <!-- Hero -->
+    <section class="hero">
+        <img src="https://placehold.co/1920x1080/1a1a1a/ffffff?text=BEDRE+APEX+PRO" alt="Bedre Apex Pro Hero" loading="eager">
+        <div class="hero-overlay">
+            <p class="hero-eyebrow">First Look</p>
+            <h1 class="hero-title">Bedre Apex Pro</h1>
+            <button class="btn btn-black" id="heroShopBtn">Shop</button>
+        </div>
+    </section>
 
-  <div class="actions">
-    <input id="searchInput" aria-label="Search products" placeholder="Search"/>
-    <div id="searchResults" class="search-results" role="listbox"></div>
+    <!-- Trending Men's -->
+    <section class="scroller-section" id="trendingMen">
+        <div class="scroller-header">
+            <h2 class="section-title">Trending Men's</h2>
+            <div class="scroller-arrows">
+                <button class="scroller-arrow" id="menScrollLeft" aria-label="Scroll Left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="scroller-arrow" id="menScrollRight" aria-label="Scroll Right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="scroller-container" id="menScroller"></div>
+    </section>
 
-    <button id="cartBtn" aria-label="Open cart">
-      🛍️ <span id="cartCount">0</span>
-    </button>
-  </div>
-</header>
+    <!-- Trending Women's -->
+    <section class="scroller-section" id="trendingWomen">
+        <div class="scroller-header">
+            <h2 class="section-title">Trending Women's</h2>
+            <div class="scroller-arrows">
+                <button class="scroller-arrow" id="womenScrollLeft" aria-label="Scroll Left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button class="scroller-arrow" id="womenScrollRight" aria-label="Scroll Right">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="scroller-container" id="womenScroller"></div>
+    </section>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <p>First Look</p>
-    <h1>BEDRE APEX PRO</h1>
-    <button>Shop</button>
-  </div>
-</section>
+    <!-- Featured Promo -->
+    <section class="promo-block">
+        <img src="https://placehold.co/1920x900/2a2a2a/ffffff?text=BEDRE+LUNA" alt="Bedre Luna Promo" loading="lazy">
+        <div class="promo-overlay">
+            <h2 class="promo-title">Bedre Luna</h2>
+            <button class="btn btn-white" id="promoShopBtn">Shop Now</button>
+        </div>
+    </section>
 
-<!-- PRODUCT ROWS -->
-<section class="scroll-section">
-  <h2>Trending Men's</h2>
-  <div id="menRow" class="scroll-row"></div>
-</section>
+    <!-- The Essentials -->
+    <section class="section-wrap" id="essentials">
+        <h2 class="section-title" style="max-width:1300px;margin:0 auto 20px;padding:0 20px;">The Essentials</h2>
+        <div class="essentials-grid">
+            <div class="essential-card" data-category="Running">
+                <img src="https://placehold.co/800x1000/333333/ffffff?text=RUNNING" alt="Running" loading="lazy">
+                <span class="essential-label">Running</span>
+            </div>
+            <div class="essential-card" data-category="Lifestyle">
+                <img src="https://placehold.co/800x1000/3a3a3a/ffffff?text=LIFESTYLE" alt="Lifestyle" loading="lazy">
+                <span class="essential-label">Lifestyle</span>
+            </div>
+            <div class="essential-card" data-category="Casual">
+                <img src="https://placehold.co/800x1000/444444/ffffff?text=CASUAL" alt="Casual" loading="lazy">
+                <span class="essential-label">Casual</span>
+            </div>
+        </div>
+    </section>
 
-<section class="scroll-section">
-  <h2>Trending Women's</h2>
-  <div id="womenRow" class="scroll-row"></div>
-</section>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Find a Store</h4>
+                <ul>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">Bedre Outlets</a></li>
+                    <li><a href="#">Flagship Stores</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get Help</h4>
+                <ul>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Shipping &amp; Delivery</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About Bedre</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Investors</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Bedre, Inc. All Rights Reserved</span>
+            <span>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Cookie Settings</a>
+            </span>
+        </div>
+    </footer>
 
-<!-- PROMO -->
-<section class="promo">
-  <div class="promo-content">
-    <h1>BEDRE LUNA</h1>
-    <button class="white-btn">Shop Now</button>
-  </div>
-</section>
+    <!-- Category View Modal -->
+    <div class="category-modal" id="categoryModal">
+        <div class="category-modal-header">
+            <span class="category-modal-title" id="categoryModalTitle">Category</span>
+            <button class="close-btn" id="categoryModalClose">&times;</button>
+        </div>
+        <div class="category-modal-grid" id="categoryModalGrid"></div>
+    </div>
 
-<!-- CATEGORIES -->
-<section class="categories">
-  <div class="category" data-cat="Running">Running</div>
-  <div class="category" data-cat="Lifestyle">Lifestyle</div>
-  <div class="category" data-cat="Casual">Casual</div>
-</section>
+    <!-- Product Quick View Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-overlay-bg active" id="productModalOverlay"></div>
+        <div class="product-modal-content" id="productModalContent">
+            <button class="product-modal-close" id="productModalClose">&times;</button>
+            <div class="product-modal-body" id="productModalBody"></div>
+        </div>
+    </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div><h4>Find a Store</h4></div>
-    <div><h4>Get Help</h4></div>
-    <div><h4>About Bedre</h4></div>
-  </div>
-  <p class="legal">© 2026 Bedre</p>
-</footer>
+    <!-- Side Cart Panel -->
+    <div class="cart-panel-overlay" id="cartPanelOverlay"></div>
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-panel-header">
+            <h3>Your Bag</h3>
+            <button class="close-btn" id="cartPanelClose">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-total"><span>Total</span><span id="cartTotal">$0</span></div>
+            <button class="btn btn-black" id="checkoutBtn">Checkout</button>
+        </div>
+    </div>
 
-<!-- OVERLAYS -->
-<div id="overlay" class="overlay"></div>
+    <!-- Checkout Modal -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="modal-overlay-bg active" id="checkoutModalOverlay"></div>
+        <div class="checkout-content">
+            <button class="checkout-close" id="checkoutModalClose">&times;</button>
+            <h3>Checkout</h3>
+            <div class="checkout-summary" id="checkoutSummary"></div>
+            <form id="checkoutForm" novalidate>
+                <div class="form-group">
+                    <label for="checkoutName">Full Name</label>
+                    <input type="text" id="checkoutName" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label for="checkoutEmail">Email Address</label>
+                    <input type="email" id="checkoutEmail" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="checkoutAddress">Shipping Address</label>
+                    <textarea id="checkoutAddress" required placeholder="Street address, city, zip"></textarea>
+                </div>
+                <button type="submit" class="btn btn-black">Place Order</button>
+            </form>
+        </div>
+    </div>
 
-<div id="productModal" class="modal" role="dialog"></div>
-<div id="categoryModal" class="modal"></div>
-<div id="checkoutModal" class="modal"></div>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
-<div id="cartPanel" class="cart-panel"></div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
