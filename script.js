@@ -137,6 +137,12 @@ document.querySelectorAll('.filter-category').forEach(card => {
 
 document.getElementById('closeCategoryModal').addEventListener('click', () => {
     categoryOverlay.classList.remove('active');
+    // Clear grid immediately on close so stale content
+    // never flashes when a new category is opened quickly
+    setTimeout(() => {
+        document.getElementById('categoryModalGrid').innerHTML = '';
+        document.getElementById('categoryModalTitle').innerText = '';
+    }, 300); // matches the CSS transition duration of 0.3s
 });
 
 // --- 6. Checkout Flow ---
