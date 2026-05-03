@@ -183,6 +183,24 @@ header {
 .cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 2rem; color: #fff; }
 .cat-card:hover img { transform: scale(1.1); }
 
+/* --- Our Story --- */
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.story-visual {
+    background: var(--accent-gradient); border-radius: var(--radius);
+    padding: 3rem; background-size: 200% auto;
+    animation: gradientShift 6s ease infinite;
+}
+.story-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.stat-item {
+    text-align: center; padding: 2rem 1.5rem;
+    background: rgba(255,255,255,0.12); border-radius: 12px;
+    backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15);
+    transition: var(--transition);
+}
+.stat-item:hover { background: rgba(255,255,255,0.22); transform: translateY(-4px); }
+.stat-number { font-size: 2.5rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; line-height: 1.2; }
+.stat-label { font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 500; }
+
 /* --- Footer & Form --- */
 .newsletter { text-align: center; background: var(--text-primary); color: #fff; }
 .newsletter .subtitle { color: #aaa; }
@@ -197,7 +215,7 @@ footer { background: #0A0C10; color: #fff; padding: 5rem 0; }
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
-    .product-modal-grid, .hero-grid, .best-seller-grid { grid-template-columns: 1fr; }
+    .product-modal-grid, .hero-grid, .best-seller-grid, .story-grid { grid-template-columns: 1fr; }
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
     .nav-links { display: none; }
 }

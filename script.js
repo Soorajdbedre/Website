@@ -137,12 +137,10 @@ document.querySelectorAll('.filter-category').forEach(card => {
 
 document.getElementById('closeCategoryModal').addEventListener('click', () => {
     categoryOverlay.classList.remove('active');
-    // Clear grid immediately on close so stale content
-    // never flashes when a new category is opened quickly
-    setTimeout(() => {
-        document.getElementById('categoryModalGrid').innerHTML = '';
-        document.getElementById('categoryModalTitle').innerText = '';
-    }, 300); // matches the CSS transition duration of 0.3s
+    // Clear immediately — no delay — so no stale content
+    // can ever flash regardless of how fast the user clicks
+    document.getElementById('categoryModalGrid').innerHTML = '';
+    document.getElementById('categoryModalTitle').innerText = '';
 });
 
 // --- 6. Checkout Flow ---
@@ -162,12 +160,22 @@ document.querySelectorAll('.trigger-checkout').forEach(btn => {
         let checkoutAmount = 0;
 
         if (e.target.id === 'modalBuyNow' && activeProductToBuy) {
+            // Buy Now from inside the product detail modal
             checkoutAmount = activeProductToBuy.price;
-        } else if (cartTotal > 0) {
-            checkoutAmount = cartTotal;
         } else {
-            document.getElementById('categories').scrollIntoView();
-            return;
+            // Check if the button lives inside a section with data-id (e.g. bestseller)
+            const parentWithId = e.target.closest('[data-id]');
+            if (parentWithId) {
+                const product = products.find(p => p.id === parentWithId.getAttribute('data-id'));
+                if (product) checkoutAmount = product.price;
+            } else if (cartTotal > 0) {
+                // Cart checkout
+                checkoutAmount = cartTotal;
+            } else {
+                // Nothing to buy yet — guide user to browse
+                document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
         }
 
         openCheckoutModal(checkoutAmount);
@@ -183,6 +191,23 @@ document.getElementById('checkoutForm').addEventListener('submit', (e) => {
     alert('Payment integration coming soon! Your order details have been received.');
     checkoutOverlay.classList.remove('active');
     e.target.reset();
+});
+
+// --- Close modals by clicking outside the modal content ---
+productOverlay.addEventListener('click', (e) => {
+    if (e.target === productOverlay) productOverlay.classList.remove('active');
+});
+
+categoryOverlay.addEventListener('click', (e) => {
+    if (e.target === categoryOverlay) {
+        categoryOverlay.classList.remove('active');
+        document.getElementById('categoryModalGrid').innerHTML = '';
+        document.getElementById('categoryModalTitle').innerText = '';
+    }
+});
+
+checkoutOverlay.addEventListener('click', (e) => {
+    if (e.target === checkoutOverlay) checkoutOverlay.classList.remove('active');
 });
 
 // --- 7. Cart Logic ---
