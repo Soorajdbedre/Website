@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bedre | Step Into Better</title>
+    <meta name="description" content="Bedre — Premium footwear designed in Bengaluru. Step into better with our running, lifestyle, and casual shoe collections. Built for comfort, styled for the modern world.">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta property="og:title" content="Bedre | Step Into Better">
+    <meta property="og:description" content="Premium comfort. Modern design. Built for everyday performance.">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,35 +26,44 @@
                 <a href="#story">Our Story</a>
             </nav>
             <div class="nav-actions">
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">☰</button>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search shoes..." autocomplete="off">
                     <div class="search-results" id="searchResults"></div>
                 </div>
                 <div class="cart">
-                    <button id="cartBtn" class="btn btn-secondary nav-btn">Cart <span id="cartCountDisplay">(0)</span></button>
+                    <button id="cartBtn" class="btn btn-secondary nav-btn" aria-label="Open cart">Cart <span id="cartCountDisplay">(0)</span></button>
                 </div>
             </div>
         </div>
     </header>
+    
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#men-collection">Men</a>
+        <a href="#women-collection">Women</a>
+        <a href="#categories">Collections</a>
+        <a href="#story">Our Story</a>
+    </nav>
 
-    <div class="app-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
+    <div class="app-overlay" id="cartOverlay" role="dialog" aria-label="Shopping cart" aria-modal="true"></div>
+    <div class="cart-sidebar" id="cartSidebar" role="dialog" aria-label="Shopping cart">
         <div class="cart-header">
             <h3>Your Cart</h3>
-            <button id="closeCart" class="close-btn">&times;</button>
+            <button id="closeCart" class="close-btn" aria-label="Close">&times;</button>
         </div>
         <div class="cart-items" id="cartItems">
             <p class="empty-cart-msg">Your cart is currently empty.</p>
         </div>
         <div class="cart-footer">
+            <button class="clear-cart-btn" id="clearCartBtn">Clear Cart</button>
             <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
             <button class="btn btn-primary trigger-checkout" style="width: 100%">Proceed to Checkout</button>
         </div>
     </div>
 
-    <div class="app-overlay" id="productOverlay">
+    <div class="app-overlay" id="productOverlay" role="dialog" aria-label="Product details" aria-modal="true">
         <div class="modal-content product-modal">
-            <button class="close-btn modal-close" id="closeProductModal">&times;</button>
+            <button class="close-btn modal-close" id="closeProductModal" aria-label="Close">&times;</button>
             <div class="product-modal-grid">
                 <div class="product-modal-img">
                     <img id="modalImg" src="shoe2.png" alt="Product">
@@ -65,6 +79,25 @@
                         <div class="spec-item"><strong>Fit/Length:</strong> <span id="modalFit"></span></div>
                         <div class="spec-item"><strong>Best For:</strong> <span id="modalFeatures"></span></div>
                     </div>
+                    
+                    <div class="size-selector">
+                        <span class="size-selector-label">Select Size</span>
+                        <div class="size-grid" id="sizeGrid">
+                            <button class="size-btn" type="button">6</button>
+                            <button class="size-btn" type="button">6.5</button>
+                            <button class="size-btn" type="button">7</button>
+                            <button class="size-btn" type="button">7.5</button>
+                            <button class="size-btn" type="button">8</button>
+                            <button class="size-btn" type="button">8.5</button>
+                            <button class="size-btn" type="button">9</button>
+                            <button class="size-btn" type="button">9.5</button>
+                            <button class="size-btn" type="button">10</button>
+                            <button class="size-btn" type="button">10.5</button>
+                            <button class="size-btn" type="button">11</button>
+                            <button class="size-btn" type="button">12</button>
+                        </div>
+                        <div class="size-error" id="sizeError">Please select a size</div>
+                    </div>
 
                     <div class="modal-actions">
                         <button class="btn btn-secondary" id="modalAddToCart">Add to Cart</button>
@@ -75,296 +108,335 @@
         </div>
     </div>
 
-    <div class="app-overlay" id="categoryOverlay">
+    <div class="app-overlay" id="categoryOverlay" role="dialog" aria-label="Category products" aria-modal="true">
         <div class="modal-content category-modal">
-            <button class="close-btn modal-close" id="closeCategoryModal">&times;</button>
+            <button class="close-btn modal-close" id="closeCategoryModal" aria-label="Close">&times;</button>
             <h2 id="categoryModalTitle" style="margin-bottom: 2rem; font-size: 2.5rem;">Category</h2>
             <div class="featured-grid" id="categoryModalGrid">
             </div>
         </div>
     </div>
 
-    <div class="app-overlay" id="checkoutOverlay">
+    <div class="app-overlay" id="checkoutOverlay" role="dialog" aria-label="Checkout" aria-modal="true">
         <div class="modal-content checkout-modal">
-            <button class="close-btn modal-close" id="closeCheckoutModal">&times;</button>
-            <h2 style="margin-bottom: 0.5rem;">Secure Checkout</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please enter your details to complete the purchase.</p>
-            
-            <form id="checkoutForm">
-                <div class="form-row">
-                    <input type="text" placeholder="First Name" required>
-                    <input type="text" placeholder="Last Name" required>
-                </div>
-                <input type="email" placeholder="Email Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
-                <input type="text" placeholder="Shipping Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
-                <div class="form-row">
-                    <input type="text" placeholder="City" required>
-                    <input type="text" placeholder="ZIP Code" required>
-                </div>
+            <button class="close-btn modal-close" id="closeCheckoutModal" aria-label="Close">&times;</button>
+            <div id="checkoutFormContent">
+                <h2 style="margin-bottom: 0.5rem;">Secure Checkout</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please enter your details to complete the purchase.</p>
                 
-                <div style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-primary); border-radius: 8px;">
-                    <h4 style="margin-bottom: 1rem;">Order Summary</h4>
-                    <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
-                        <span>Total to Pay:</span>
-                        <span>$<span id="checkoutTotalDisplay">0</span></span>
+                <form id="checkoutForm">
+                    <div class="form-row">
+                        <input type="text" placeholder="First Name" required>
+                        <input type="text" placeholder="Last Name" required>
                     </div>
-                </div>
+                    <input type="email" placeholder="Email Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
+                    <input type="text" placeholder="Shipping Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
+                    <div class="form-row">
+                        <input type="text" placeholder="City" required>
+                        <input type="text" placeholder="ZIP Code" required>
+                    </div>
+                    
+                    <div style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-primary); border-radius: 8px;">
+                        <h4 style="margin-bottom: 1rem;">Order Summary</h4>
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
+                            <span>Total to Pay:</span>
+                            <span>$<span id="checkoutTotalDisplay">0</span></span>
+                        </div>
+                    </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Order</button>
-            </form>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Order</button>
+                </form>
+            </div>
+            
+            <div class="checkout-success" id="checkoutSuccess">
+                <div class="success-checkmark">
+                    <svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg>
+                </div>
+                <h2>Order Confirmed!</h2>
+                <p>Thank you for your purchase. A confirmation email will be sent shortly.</p>
+            </div>
         </div>
     </div>
 
-    <!-- HERO SECTION — shoe1.png (unchanged) -->
-    <section class="hero" id="hero">
-        <div class="container hero-grid">
-            <div class="hero-content reveal">
-                <h1>Step Into Better</h1>
-                <p class="subtitle">Premium comfort. Modern design. Built for everyday performance. Experience the future of footwear.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary trigger-checkout">Shop Now</button>
-                    <a href="#categories" class="btn btn-secondary">Explore Collection</a>
+    <main>
+        <!-- HERO SECTION — shoe1.png (unchanged) -->
+        <section class="hero" id="hero">
+            <div class="container hero-grid">
+                <div class="hero-content reveal">
+                    <h1>Step Into Better</h1>
+                    <p class="subtitle">Premium comfort. Modern design. Built for everyday performance. Experience the future of footwear.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary trigger-checkout">Shop Now</button>
+                        <a href="#categories" class="btn btn-secondary">Explore Collection</a>
+                    </div>
+                </div>
+                <div class="hero-image-container reveal" style="transition-delay: 0.2s;">
+                    <div class="hero-glow"></div>
+                    <img src="shoe1.png" alt="Bedre Premium Shoe" class="hero-image" loading="eager" fetchpriority="high">
                 </div>
             </div>
-            <div class="hero-image-container reveal" style="transition-delay: 0.2s;">
-                <div class="hero-glow"></div>
-                <img src="shoe1.png" alt="Bedre Premium Shoe" class="hero-image">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- MEN'S COLLECTION -->
-    <!-- Nova = Running (shoe2.png) | Arc = Lifestyle (shoe3.png) | Core = Casual (shoe4.png) -->
-    <section class="section-padding" id="men-collection">
-        <div class="container">
-            <h2 class="text-center reveal">Men's Collection</h2>
-            <div class="featured-grid">
+        <!-- MEN'S COLLECTION -->
+        <!-- Nova = Running (shoe2.png) | Arc = Lifestyle (shoe3.png) | Core = Casual (shoe4.png) -->
+        <section class="section-padding" id="men-collection">
+            <div class="container">
+                <h2 class="text-center reveal">Men's Collection</h2>
+                <div class="featured-grid">
 
-                <!-- Bedre Nova — Men's Running -->
-                <div class="product-card reveal" data-id="nova">
-                    <div class="product-img">
-                        <img src="shoe2.png" alt="Bedre Nova">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Nova</div>
-                            <div class="product-cat">Running</div>
+                    <!-- Bedre Nova — Men's Running -->
+                    <div class="product-card reveal" data-id="nova">
+                        <div class="product-img">
+                            <img src="shoe2.png" alt="Bedre Nova" loading="lazy">
                         </div>
-                        <div class="product-price">$165</div>
-                    </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
-
-                <!-- Bedre Arc — Men's Lifestyle -->
-                <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="arc">
-                    <div class="product-img">
-                        <img src="shoe3.png" alt="Bedre Arc">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Arc</div>
-                            <div class="product-cat">Lifestyle</div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Nova</div>
+                                <div class="product-cat">Running</div>
+                            </div>
+                            <div class="product-price">$165</div>
                         </div>
-                        <div class="product-price">$140</div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
 
-                <!-- Bedre Core — Men's Casual -->
-                <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="core">
-                    <div class="product-img">
-                        <img src="shoe4.png" alt="Bedre Core">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Core</div>
-                            <div class="product-cat">Casual</div>
+                    <!-- Bedre Arc — Men's Lifestyle -->
+                    <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="arc">
+                        <div class="product-img">
+                            <img src="shoe3.png" alt="Bedre Arc" loading="lazy">
                         </div>
-                        <div class="product-price">$125</div>
-                    </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- WOMEN'S COLLECTION -->
-    <!-- Aura = Running (shoe5.png) | Luna = Lifestyle (shoe6.png) | Zenith = Casual (shoe7.png) -->
-    <section class="section-padding" id="women-collection" style="background: var(--bg-secondary);">
-        <div class="container">
-            <h2 class="text-center reveal">Women's Collection</h2>
-            <div class="featured-grid">
-
-                <!-- Bedre Aura — Women's Running -->
-                <div class="product-card reveal" data-id="aura">
-                    <div class="product-img">
-                        <img src="shoe5.png" alt="Bedre Aura">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Aura</div>
-                            <div class="product-cat">Running</div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Arc</div>
+                                <div class="product-cat">Lifestyle</div>
+                            </div>
+                            <div class="product-price">$140</div>
                         </div>
-                        <div class="product-price">$170</div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
 
-                <!-- Bedre Luna — Women's Lifestyle -->
-                <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="luna">
-                    <div class="product-img">
-                        <img src="shoe6.png" alt="Bedre Luna">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Luna</div>
-                            <div class="product-cat">Lifestyle</div>
+                    <!-- Bedre Core — Men's Casual -->
+                    <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="core">
+                        <div class="product-img">
+                            <img src="shoe4.png" alt="Bedre Core" loading="lazy">
                         </div>
-                        <div class="product-price">$145</div>
-                    </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
-
-                <!-- Bedre Zenith — Women's Casual -->
-                <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="zenith">
-                    <div class="product-img">
-                        <img src="shoe7.png" alt="Bedre Zenith">
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">Bedre Zenith</div>
-                            <div class="product-cat">Casual</div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Core</div>
+                                <div class="product-cat">Casual</div>
+                            </div>
+                            <div class="product-price">$125</div>
                         </div>
-                        <div class="product-price">$130</div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
-                    <button class="btn btn-secondary view-product-btn">View Product</button>
-                </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- BESTSELLER — Apex Pro = Performance (shoe8.png) -->
-    <section class="section-padding best-seller">
-        <div class="container best-seller-grid">
-            <div class="best-seller-img reveal">
-                <img src="shoe8.png" alt="Bedre Apex Pro">
-            </div>
-            <div class="best-seller-content reveal" data-id="apex">
-                <div class="subtitle" style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Bestseller</div>
-                <h2 class="product-name">Bedre Apex Pro</h2>
-                <p class="subtitle">Our flagship model engineered for the modern athlete. Seamlessly blending high-impact support with ultra-lightweight breathable fabrics.</p>
-                <ul class="features-list">
-                    <li>AeroWeave™ breathable upper</li>
-                    <li>Zero-gravity foam midsole</li>
-                    <li>Carbon-infused support plate</li>
-                </ul>
-                <h3 class="product-price" style="font-size: 2rem; margin-bottom: 1.5rem;">$185</h3>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn btn-secondary view-product-btn">View Details</button>
-                    <button class="btn btn-primary trigger-checkout">Buy Now</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SHOP BY CATEGORY -->
-    <!-- Category banner images use the same shoe images for consistency -->
-    <section class="section-padding" id="categories">
-        <div class="container">
-            <h2 class="text-center reveal" style="margin-bottom: 3rem;">Shop by Category</h2>
-            <div class="cat-grid">
+        <!-- WOMEN'S COLLECTION -->
+        <!-- Aura = Running (shoe5.png) | Luna = Lifestyle (shoe6.png) | Zenith = Casual (shoe7.png) -->
+        <section class="section-padding" id="women-collection" style="background: var(--bg-secondary);">
+            <div class="container">
+                <h2 class="text-center reveal">Women's Collection</h2>
+                <div class="featured-grid">
 
-                <!-- Running category banner — uses Nova (shoe2.png) -->
-                <div class="cat-card reveal filter-category" data-category="Running">
-                    <img src="shoe2.png" alt="Running">
-                    <div class="cat-overlay"><h3>Running</h3></div>
+                    <!-- Bedre Aura — Women's Running -->
+                    <div class="product-card reveal" data-id="aura">
+                        <div class="product-img">
+                            <img src="shoe5.png" alt="Bedre Aura" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Aura</div>
+                                <div class="product-cat">Running</div>
+                            </div>
+                            <div class="product-price">$170</div>
+                        </div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
+                    </div>
+
+                    <!-- Bedre Luna — Women's Lifestyle -->
+                    <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="luna">
+                        <div class="product-img">
+                            <img src="shoe6.png" alt="Bedre Luna" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Luna</div>
+                                <div class="product-cat">Lifestyle</div>
+                            </div>
+                            <div class="product-price">$145</div>
+                        </div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
+                    </div>
+
+                    <!-- Bedre Zenith — Women's Casual -->
+                    <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="zenith">
+                        <div class="product-img">
+                            <img src="shoe7.png" alt="Bedre Zenith" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <div class="product-name">Bedre Zenith</div>
+                                <div class="product-cat">Casual</div>
+                            </div>
+                            <div class="product-price">$130</div>
+                        </div>
+                        <button class="btn btn-secondary view-product-btn">View Product</button>
+                    </div>
+
                 </div>
-
-                <!-- Casual category banner — uses Core (shoe4.png) -->
-                <div class="cat-card reveal filter-category" style="transition-delay: 0.1s;" data-category="Casual">
-                    <img src="shoe4.png" alt="Casual">
-                    <div class="cat-overlay"><h3>Casual</h3></div>
-                </div>
-
-                <!-- Lifestyle category banner — uses Arc (shoe3.png) -->
-                <div class="cat-card reveal filter-category" style="transition-delay: 0.2s;" data-category="Lifestyle">
-                    <img src="shoe3.png" alt="Lifestyle">
-                    <div class="cat-overlay"><h3>Lifestyle</h3></div>
-                </div>
-
-                <!-- Performance category banner — uses Apex Pro (shoe8.png) -->
-                <div class="cat-card reveal filter-category" style="transition-delay: 0.3s;" data-category="Performance">
-                    <img src="shoe8.png" alt="Performance">
-                    <div class="cat-overlay"><h3>Performance</h3></div>
-                </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- OUR STORY -->
-    <section class="section-padding" id="story" style="background: var(--bg-secondary);">
-        <div class="container">
-            <div class="story-grid">
-                <div class="story-content reveal">
-                    <div class="subtitle" style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Our Story</div>
-                    <h2>Born in Bengaluru,<br>Built for the World</h2>
-                    <p class="subtitle">Bedre started with a simple question: why does comfort have to come at the cost of style? We set out to engineer footwear that refuses to compromise — shoes that look as good as they feel, built with materials that respect the planet.</p>
-                    <p style="color: var(--text-secondary); line-height: 1.8;">Every pair is designed in our Bengaluru studio and crafted using responsibly sourced materials. From zero-gravity foam midsoles to recycled knit uppers, every detail is intentional. Because "bedre" means better — and better is what we deliver, one step at a time.</p>
+        <!-- BESTSELLER — Apex Pro = Performance (shoe8.png) -->
+        <section class="section-padding best-seller">
+            <div class="container best-seller-grid">
+                <div class="best-seller-img reveal">
+                    <img src="shoe8.png" alt="Bedre Apex Pro" loading="lazy">
                 </div>
-                <div class="story-visual reveal" style="transition-delay: 0.2s;">
-                    <div class="story-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">50K+</div>
-                            <div class="stat-label">Happy Customers</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">7</div>
-                            <div class="stat-label">Unique Models</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">92%</div>
-                            <div class="stat-label">Recycled Materials</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">4.9★</div>
-                            <div class="stat-label">Average Rating</div>
-                        </div>
+                <div class="best-seller-content reveal" data-id="apex">
+                    <div class="subtitle" style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Bestseller</div>
+                    <h2 class="product-name">Bedre Apex Pro</h2>
+                    <p class="subtitle">Our flagship model engineered for the modern athlete. Seamlessly blending high-impact support with ultra-lightweight breathable fabrics.</p>
+                    <ul class="features-list">
+                        <li>AeroWeave™ breathable upper</li>
+                        <li>Zero-gravity foam midsole</li>
+                        <li>Carbon-infused support plate</li>
+                    </ul>
+                    <h3 class="product-price" style="font-size: 2rem; margin-bottom: 1.5rem;">$185</h3>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-secondary view-product-btn">View Details</button>
+                        <button class="btn btn-primary trigger-checkout">Buy Now</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section-padding newsletter">
-        <div class="container reveal">
-            <h2>Join the Bedre Movement</h2>
-            <p class="subtitle" style="margin-bottom: 0;">Subscribe to receive updates and 10% off your first pair.</p>
-            <form class="form-group" id="newsletterForm">
-                <input type="email" id="emailInput" placeholder="Enter your email address" required>
-                <button type="submit" class="btn btn-primary">Subscribe</button>
-            </form>
-        </div>
-    </section>
+        <!-- SHOP BY CATEGORY -->
+        <!-- Category banner images use the same shoe images for consistency -->
+        <section class="section-padding" id="categories">
+            <div class="container">
+                <h2 class="text-center reveal" style="margin-bottom: 3rem;">Shop by Category</h2>
+                <div class="cat-grid">
+
+                    <!-- Running category banner — uses Nova (shoe2.png) -->
+                    <div class="cat-card reveal filter-category" data-category="Running">
+                        <img src="shoe2.png" alt="Running Shoes" loading="lazy">
+                        <div class="cat-overlay"><h3>Running</h3></div>
+                    </div>
+
+                    <!-- Casual category banner — uses Core (shoe4.png) -->
+                    <div class="cat-card reveal filter-category" style="transition-delay: 0.1s;" data-category="Casual">
+                        <img src="shoe4.png" alt="Casual Shoes" loading="lazy">
+                        <div class="cat-overlay"><h3>Casual</h3></div>
+                    </div>
+
+                    <!-- Lifestyle category banner — uses Arc (shoe3.png) -->
+                    <div class="cat-card reveal filter-category" style="transition-delay: 0.2s;" data-category="Lifestyle">
+                        <img src="shoe3.png" alt="Lifestyle Shoes" loading="lazy">
+                        <div class="cat-overlay"><h3>Lifestyle</h3></div>
+                    </div>
+
+                    <!-- Performance category banner — uses Apex Pro (shoe8.png) -->
+                    <div class="cat-card reveal filter-category" style="transition-delay: 0.3s;" data-category="Performance">
+                        <img src="shoe8.png" alt="Performance Shoes" loading="lazy">
+                        <div class="cat-overlay"><h3>Performance</h3></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY -->
+        <section class="section-padding" id="story" style="background: var(--bg-secondary);">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-content reveal">
+                        <div class="subtitle" style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Our Story</div>
+                        <h2>Born in Bengaluru,<br>Built for the World</h2>
+                        <p class="subtitle">Bedre started with a simple question: why does comfort have to come at the cost of style? We set out to engineer footwear that refuses to compromise — shoes that look as good as they feel, built with materials that respect the planet.</p>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">Every pair is designed in our Bengaluru studio and crafted using responsibly sourced materials. From zero-gravity foam midsoles to recycled knit uppers, every detail is intentional. Because "bedre" means better — and better is what we deliver, one step at a time.</p>
+                    </div>
+                    <div class="story-visual reveal" style="transition-delay: 0.2s;">
+                        <div class="story-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">50K+</div>
+                                <div class="stat-label">Happy Customers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">7</div>
+                                <div class="stat-label">Unique Models</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">92%</div>
+                                <div class="stat-label">Recycled Materials</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.9★</div>
+                                <div class="stat-label">Average Rating</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding newsletter">
+            <div class="container reveal">
+                <h2>Join the Bedre Movement</h2>
+                <p class="subtitle" style="margin-bottom: 0;">Subscribe to receive updates and 10% off your first pair.</p>
+                <form class="form-group" id="newsletterForm">
+                    <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <div class="container footer-grid">
-            <div class="footer-col">
-                <div class="logo" style="margin-bottom: 1rem;">Bedre.</div>
-                <p style="color: #999; max-width: 250px;">Step into better. Premium footwear designed in Bengaluru, built for the world.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 1rem;">Bedre.</div>
+                    <p style="color: rgba(255,255,255,0.4); max-width: 250px; font-size: 0.92rem; line-height: 1.7;">Step into better. Premium footwear designed in Bengaluru, built for the world.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg></a>
+                        <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.4-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#men-collection">Men's</a></li>
+                        <li><a href="#women-collection">Women's</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#story">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-col">
-                <h4>Shop</h4>
-                <ul>
-                    <li><a href="#men-collection">Men's</a></li>
-                    <li><a href="#women-collection">Women's</a></li>
-                    <li><a href="#categories">Categories</a></li>
-                </ul>
-            </div>
+            <div class="copyright">© 2026 Bedre. All rights reserved.</div>
         </div>
     </footer>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
     <script src="script.js" defer></script>
 </body>

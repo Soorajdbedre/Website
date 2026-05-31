@@ -10,15 +10,152 @@ const products = [
 ];
 
 // --- 2. State & DOM Elements ---
-let cartCount = 0;
-let cartTotal = 0;
+let cartItems = [];
+let selectedSize = null;
 let activeProductToBuy = null;
 
 const productOverlay  = document.getElementById('productOverlay');
 const checkoutOverlay = document.getElementById('checkoutOverlay');
 const categoryOverlay = document.getElementById('categoryOverlay');
+const sizeGrid = document.getElementById('sizeGrid');
+const sizeError = document.getElementById('sizeError');
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+const backToTop = document.getElementById('backToTop');
 
-// --- 3. Search Functionality ---
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3200);
+}
+
+// --- 3. Cart Logic ---
+function getCartCount() { return cartItems.length; }
+function getCartTotal() { return cartItems.reduce((sum, item) => sum + item.price, 0); }
+
+function saveCart() { localStorage.setItem('bedreCart', JSON.stringify(cartItems)); }
+
+function loadCart() {
+    const saved = localStorage.getItem('bedreCart');
+    if (saved) { cartItems = JSON.parse(saved); renderCart(); }
+}
+
+function addToCart(product, size) {
+    cartItems.push({ id: product.id, name: product.name, price: product.price, size: size, img: product.img });
+    saveCart();
+    renderCart();
+    showToast(`${product.name} (Size ${size}) added to cart`, 'success');
+}
+
+function removeFromCart(index) {
+    const removed = cartItems.splice(index, 1);
+    saveCart();
+    renderCart();
+    showToast(`${removed[0].name} removed from cart`, 'info');
+}
+
+function clearCart() {
+    cartItems = [];
+    saveCart();
+    renderCart();
+}
+
+function renderCart() {
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartCountDisplay = document.getElementById('cartCountDisplay');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const count = getCartCount();
+    const total = getCartTotal();
+    
+    cartCountDisplay.innerText = `(${count})`;
+    cartTotalEl.innerText = total;
+    
+    if (count === 0) {
+        cartItemsEl.innerHTML = '<p class="empty-cart-msg">Your cart is currently empty.</p>';
+        return;
+    }
+    
+    let html = '';
+    cartItems.forEach((item, index) => {
+        html += `<div class="cart-item">
+            <div class="cart-item-info">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-size">Size ${item.size}</div>
+            </div>
+            <span class="cart-item-price">$${item.price}</span>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Remove ${item.name}">✕</button>
+        </div>`;
+    });
+    cartItemsEl.innerHTML = html;
+}
+
+document.getElementById('modalAddToCart').addEventListener('click', () => {
+    if (!activeProductToBuy) return;
+    if (!validateSize()) return;
+    
+    addToCart(activeProductToBuy, selectedSize);
+    
+    productOverlay.classList.remove('active');
+    document.getElementById('cartOverlay').classList.add('active');
+    document.getElementById('cartSidebar').classList.add('active');
+});
+
+document.getElementById('cartBtn').addEventListener('click', () => {
+    document.getElementById('cartOverlay').classList.add('active');
+    document.getElementById('cartSidebar').classList.add('active');
+});
+
+const closeCart = () => {
+    document.getElementById('cartOverlay').classList.remove('active');
+    document.getElementById('cartSidebar').classList.remove('active');
+};
+document.getElementById('closeCart').addEventListener('click', closeCart);
+document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+document.getElementById('clearCartBtn').addEventListener('click', () => {
+    clearCart();
+    showToast('Cart cleared', 'info');
+});
+
+// --- 4. Size Selector Logic ---
+sizeGrid.addEventListener('click', (e) => {
+    if (e.target.classList.contains('size-btn')) {
+        sizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        e.target.classList.add('selected');
+        selectedSize = e.target.textContent;
+        sizeError.classList.remove('visible');
+    }
+});
+
+function validateSize() {
+    if (!selectedSize) {
+        sizeError.classList.add('visible');
+        sizeGrid.classList.add('shake');
+        setTimeout(() => sizeGrid.classList.remove('shake'), 400);
+        return false;
+    }
+    return true;
+}
+
+// --- 5. Mobile Nav ---
+hamburgerBtn.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('active');
+    hamburgerBtn.textContent = isOpen ? '✕' : '☰';
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+});
+
+mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        hamburgerBtn.textContent = '☰';
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+});
+
+// --- 6. Search Functionality ---
 const searchInput   = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
 
@@ -55,12 +192,16 @@ searchInput.addEventListener('input', (e) => {
     }
 });
 
-// --- 4. Product Details Modal ---
+// --- 7. Product Details Modal ---
 function openProductModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
     activeProductToBuy = product;
+    
+    selectedSize = null; 
+    sizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected')); 
+    sizeError.classList.remove('visible');
 
     document.getElementById('modalImg').src           = product.img;
     document.getElementById('modalName').innerText    = product.name;
@@ -85,30 +226,21 @@ document.getElementById('closeProductModal').addEventListener('click', () => {
     productOverlay.classList.remove('active');
 });
 
-// --- 5. Category Filtering View ---
-// FIX 1: Extracted into a named function so the Intersection Observer
-// cannot accidentally trigger it on page load
+// --- 8. Category Filtering View ---
 function openCategoryModal(category) {
     document.getElementById('categoryModalTitle').innerText = `${category} Collection`;
-
     const grid = document.getElementById('categoryModalGrid');
-
-    // FIX 2: Always wipe the grid completely before rebuilding
-    // Prevents old shoe images from persisting on second/third open
     grid.innerHTML = '';
-
     const filtered = products.filter(p => p.category === category);
 
     if (filtered.length === 0) {
         grid.innerHTML = `<p style="grid-column:1/-1;font-size:1.2rem;">More ${category} styles dropping soon.</p>`;
     } else {
-        // FIX 3: Build full HTML string first, assign once
-        // Avoids partial renders and image mix-ups from incremental += appends
         let html = '';
         filtered.forEach(p => {
             html += `
                 <div class="product-card" data-id="${p.id}" onclick="openProductModal('${p.id}')">
-                    <div class="product-img"><img src="${p.img}" alt="${p.name}"></div>
+                    <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
                     <div class="product-info">
                         <div>
                             <div class="product-name">${p.name}</div>
@@ -122,11 +254,9 @@ function openCategoryModal(category) {
         });
         grid.innerHTML = html;
     }
-
     categoryOverlay.classList.add('active');
 }
 
-// FIX 4: stopPropagation prevents click from bubbling up to parent overlays
 document.querySelectorAll('.filter-category').forEach(card => {
     card.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -137,13 +267,11 @@ document.querySelectorAll('.filter-category').forEach(card => {
 
 document.getElementById('closeCategoryModal').addEventListener('click', () => {
     categoryOverlay.classList.remove('active');
-    // Clear immediately — no delay — so no stale content
-    // can ever flash regardless of how fast the user clicks
     document.getElementById('categoryModalGrid').innerHTML = '';
     document.getElementById('categoryModalTitle').innerText = '';
 });
 
-// --- 6. Checkout Flow ---
+// --- 9. Checkout Flow ---
 function openCheckoutModal(amount) {
     productOverlay.classList.remove('active');
     document.getElementById('cartOverlay').classList.remove('active');
@@ -156,23 +284,20 @@ function openCheckoutModal(amount) {
 document.querySelectorAll('.trigger-checkout').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
-
         let checkoutAmount = 0;
 
         if (e.target.id === 'modalBuyNow' && activeProductToBuy) {
-            // Buy Now from inside the product detail modal
+            if (!validateSize()) return;
+            addToCart(activeProductToBuy, selectedSize);
             checkoutAmount = activeProductToBuy.price;
         } else {
-            // Check if the button lives inside a section with data-id (e.g. bestseller)
             const parentWithId = e.target.closest('[data-id]');
             if (parentWithId) {
                 const product = products.find(p => p.id === parentWithId.getAttribute('data-id'));
                 if (product) checkoutAmount = product.price;
-            } else if (cartTotal > 0) {
-                // Cart checkout
-                checkoutAmount = cartTotal;
+            } else if (getCartTotal() > 0) {
+                checkoutAmount = getCartTotal();
             } else {
-                // Nothing to buy yet — guide user to browse
                 document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
@@ -188,12 +313,20 @@ document.getElementById('closeCheckoutModal').addEventListener('click', () => {
 
 document.getElementById('checkoutForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('Payment integration coming soon! Your order details have been received.');
-    checkoutOverlay.classList.remove('active');
-    e.target.reset();
+    document.getElementById('checkoutFormContent').style.display = 'none';
+    const successEl = document.getElementById('checkoutSuccess');
+    successEl.classList.add('active');
+    clearCart();
+    showToast('Order placed successfully!', 'success');
+    setTimeout(() => {
+        checkoutOverlay.classList.remove('active');
+        successEl.classList.remove('active');
+        document.getElementById('checkoutFormContent').style.display = 'block';
+        e.target.reset();
+    }, 3000);
 });
 
-// --- Close modals by clicking outside the modal content ---
+// --- 10. Close Modals (Click Outside & Escape) ---
 productOverlay.addEventListener('click', (e) => {
     if (e.target === productOverlay) productOverlay.classList.remove('active');
 });
@@ -210,50 +343,38 @@ checkoutOverlay.addEventListener('click', (e) => {
     if (e.target === checkoutOverlay) checkoutOverlay.classList.remove('active');
 });
 
-// --- 7. Cart Logic ---
-document.getElementById('modalAddToCart').addEventListener('click', () => {
-    if (!activeProductToBuy) return;
-
-    cartCount++;
-    cartTotal += activeProductToBuy.price;
-
-    document.getElementById('cartCountDisplay').innerText = `(${cartCount})`;
-    document.getElementById('cartTotal').innerText = cartTotal;
-
-    document.querySelector('.empty-cart-msg').style.display = 'none';
-    document.getElementById('cartItems').innerHTML += `
-        <div class="cart-item">
-            <span>${activeProductToBuy.name}</span>
-            <span>$${activeProductToBuy.price}</span>
-        </div>
-    `;
-
-    productOverlay.classList.remove('active');
-    document.getElementById('cartOverlay').classList.add('active');
-    document.getElementById('cartSidebar').classList.add('active');
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (checkoutOverlay.classList.contains('active')) {
+            checkoutOverlay.classList.remove('active');
+            document.getElementById('checkoutSuccess').classList.remove('active');
+            document.getElementById('checkoutFormContent').style.display = 'block';
+        } else if (productOverlay.classList.contains('active')) {
+            productOverlay.classList.remove('active');
+        } else if (categoryOverlay.classList.contains('active')) {
+            categoryOverlay.classList.remove('active');
+            document.getElementById('categoryModalGrid').innerHTML = '';
+            document.getElementById('categoryModalTitle').innerText = '';
+        } else if (document.getElementById('cartSidebar').classList.contains('active')) {
+            closeCart();
+        } else if (mobileNav.classList.contains('active')) {
+            mobileNav.classList.remove('active');
+            hamburgerBtn.textContent = '☰';
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+        }
+    }
 });
 
-document.getElementById('cartBtn').addEventListener('click', () => {
-    document.getElementById('cartOverlay').classList.add('active');
-    document.getElementById('cartSidebar').classList.add('active');
-});
-
-const closeCart = () => {
-    document.getElementById('cartOverlay').classList.remove('active');
-    document.getElementById('cartSidebar').classList.remove('active');
-};
-document.getElementById('closeCart').addEventListener('click', closeCart);
-document.getElementById('cartOverlay').addEventListener('click', closeCart);
-
-// --- 8. Newsletter ---
+// --- 11. Newsletter ---
 document.getElementById('newsletterForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('This is working!');
+    showToast('Welcome to Bedre! Check your inbox for 10% off.', 'success');
     e.target.reset();
 });
 
-// --- 9. Reveal Animations on Scroll ---
+// --- 12. Reveal Animations & Global Events ---
 window.addEventListener('load', () => {
+    loadCart();
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -265,7 +386,6 @@ window.addEventListener('load', () => {
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 });
 
-// --- 10. Header Style on Scroll ---
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
@@ -275,4 +395,14 @@ window.addEventListener('scroll', () => {
         header.style.boxShadow = 'none';
         header.style.padding   = '1.2rem 0';
     }
+    
+    if (window.scrollY > window.innerHeight) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
+});
+
+backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
