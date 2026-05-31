@@ -13,6 +13,7 @@ const products = [
 let cartItems = [];
 let selectedSize = null;
 let activeProductToBuy = null;
+let isBuyNowCheckout = false;
 
 const productOverlay  = document.getElementById('productOverlay');
 const checkoutOverlay = document.getElementById('checkoutOverlay');
@@ -33,8 +34,8 @@ function showToast(message, type = 'info') {
 }
 
 // --- 3. Cart Logic ---
-function getCartCount() { return cartItems.length; }
-function getCartTotal() { return cartItems.reduce((sum, item) => sum + item.price, 0); }
+function getCartCount() { return cartItems.reduce((sum, item) => sum + item.quantity, 0); }
+function getCartTotal() { return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0); }
 
 function saveCart() { localStorage.setItem('bedreCart', JSON.stringify(cartItems)); }
 
@@ -44,7 +45,12 @@ function loadCart() {
 }
 
 function addToCart(product, size) {
-    cartItems.push({ id: product.id, name: product.name, price: product.price, size: size, img: product.img });
+    const existing = cartItems.find(i => i.id === product.id && i.size === size);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cartItems.push({ id: product.id, name: product.name, price: product.price, size: size, img: product.img, quantity: 1 });
+    }
     saveCart();
     renderCart();
     showToast(`${product.name} (Size ${size}) added to cart`, 'success');
@@ -57,6 +63,16 @@ function removeFromCart(index) {
     showToast(`${removed[0].name} removed from cart`, 'info');
 }
 
+function updateQuantity(index, delta) {
+    cartItems[index].quantity += delta;
+    if (cartItems[index].quantity <= 0) {
+        removeFromCart(index);
+    } else {
+        saveCart();
+        renderCart();
+    }
+}
+
 function clearCart() {
     cartItems = [];
     saveCart();
@@ -67,6 +83,7 @@ function renderCart() {
     const cartItemsEl = document.getElementById('cartItems');
     const cartCountDisplay = document.getElementById('cartCountDisplay');
     const cartTotalEl = document.getElementById('cartTotal');
+    const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
     const count = getCartCount();
     const total = getCartTotal();
     
@@ -74,19 +91,48 @@ function renderCart() {
     cartTotalEl.innerText = total;
     
     if (count === 0) {
-        cartItemsEl.innerHTML = '<p class="empty-cart-msg">Your cart is currently empty.</p>';
+        cartItemsEl.innerHTML = `
+            <div style="text-align:center; padding-top:3rem; color:var(--text-secondary);">
+                <svg viewBox="0 0 24 24" style="width:64px;height:64px;margin-bottom:1rem;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:0.5;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <p style="margin-bottom: 1.5rem;">Your cart is feeling a bit light.</p>
+                <button class="btn btn-secondary" onclick="closeCart(); document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });">Start Shopping</button>
+            </div>
+        `;
+        document.getElementById('clearCartBtn').style.display = 'none';
+        if(cartCheckoutBtn) {
+            cartCheckoutBtn.disabled = true;
+            cartCheckoutBtn.style.opacity = '0.5';
+            cartCheckoutBtn.style.cursor = 'not-allowed';
+        }
         return;
     }
     
+    document.getElementById('clearCartBtn').style.display = 'block';
+    if(cartCheckoutBtn) {
+        cartCheckoutBtn.disabled = false;
+        cartCheckoutBtn.style.opacity = '1';
+        cartCheckoutBtn.style.cursor = 'pointer';
+    }
+
     let html = '';
     cartItems.forEach((item, index) => {
         html += `<div class="cart-item">
+            <div class="cart-item-img" style="width: 60px; height: 60px; background: var(--bg-primary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; padding: 0.5rem; flex-shrink: 0;">
+                <img src="${item.img}" alt="${item.name}" style="max-width: 100%; max-height: 100%;">
+            </div>
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-size">Size ${item.size}</div>
+                <div class="cart-item-size" style="margin-bottom: 0.4rem;">Size ${item.size}</div>
+                <div class="cart-item-qty" style="display: flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-full); width: fit-content; padding: 0.2rem 0.5rem;">
+                    <button type="button" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--text-secondary);line-height:1;" onclick="updateQuantity(${index}, -1)">-</button>
+                    <span style="font-size:0.85rem;font-weight:600;min-width:1rem;text-align:center;">${item.quantity}</span>
+                    <button type="button" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--text-secondary);line-height:1;" onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
             </div>
-            <span class="cart-item-price">$${item.price}</span>
-            <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Remove ${item.name}">✕</button>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;">
+                <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Remove ${item.name}">✕</button>
+                <span class="cart-item-price">$${item.price * item.quantity}</span>
+            </div>
         </div>`;
     });
     cartItemsEl.innerHTML = html;
@@ -156,41 +202,47 @@ mobileNav.querySelectorAll('a').forEach(link => {
 });
 
 // --- 6. Search Functionality ---
-const searchInput   = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
+function setupSearch(inputId, resultsId) {
+    const input = document.getElementById(inputId);
+    const results = document.getElementById(resultsId);
+    if (!input || !results) return;
 
-searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    searchResults.innerHTML = '';
-
-    if (!term) {
-        searchResults.style.display = 'none';
-        return;
-    }
-
-    const matches = products.filter(p =>
-        p.name.toLowerCase().includes(term) ||
-        p.category.toLowerCase().includes(term)
-    );
-
-    if (matches.length > 0) {
-        searchResults.style.display = 'flex';
-        matches.forEach(match => {
-            const div = document.createElement('div');
-            div.className = 'search-result-item';
-            div.innerHTML = `<span>${match.name}</span><span style="color:var(--text-secondary)">${match.category}</span>`;
-            div.onclick = () => {
-                openProductModal(match.id);
-                searchResults.style.display = 'none';
-                searchInput.value = '';
-            };
-            searchResults.appendChild(div);
-        });
-    } else {
-        searchResults.style.display = 'flex';
-        searchResults.innerHTML = `<div class="search-result-item" style="color:var(--text-secondary)">No shoes found.</div>`;
-    }
-});
+    input.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        results.innerHTML = '';
+        if (!term) {
+            results.style.display = 'none';
+            return;
+        }
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(term) ||
+            p.category.toLowerCase().includes(term)
+        );
+        if (matches.length > 0) {
+            results.style.display = 'flex';
+            matches.forEach(match => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.innerHTML = `<span>${match.name}</span><span style="color:var(--text-secondary)">${match.category}</span>`;
+                div.onclick = () => {
+                    openProductModal(match.id);
+                    results.style.display = 'none';
+                    input.value = '';
+                    if (mobileNav.classList.contains('active')) {
+                        mobileNav.classList.remove('active');
+                        hamburgerBtn.textContent = '☰';
+                    }
+                };
+                results.appendChild(div);
+            });
+        } else {
+            results.style.display = 'flex';
+            results.innerHTML = `<div class="search-result-item" style="color:var(--text-secondary)">No shoes found.</div>`;
+        }
+    });
+}
+setupSearch('searchInput', 'searchResults');
+setupSearch('mobileSearchInput', 'mobileSearchResults');
 
 // --- 7. Product Details Modal ---
 function openProductModal(productId) {
@@ -285,11 +337,13 @@ document.querySelectorAll('.trigger-checkout').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
         let checkoutAmount = 0;
+        isBuyNowCheckout = false;
 
         if (e.target.id === 'modalBuyNow' && activeProductToBuy) {
             if (!validateSize()) return;
-            addToCart(activeProductToBuy, selectedSize);
+            // DO NOT ADD TO CART, just buy this item directly
             checkoutAmount = activeProductToBuy.price;
+            isBuyNowCheckout = true;
         } else {
             const parentWithId = e.target.closest('[data-id]');
             if (parentWithId) {
@@ -316,7 +370,12 @@ document.getElementById('checkoutForm').addEventListener('submit', (e) => {
     document.getElementById('checkoutFormContent').style.display = 'none';
     const successEl = document.getElementById('checkoutSuccess');
     successEl.classList.add('active');
-    clearCart();
+    
+    // Only clear cart if this wasn't a direct "Buy Now" checkout
+    if (!isBuyNowCheckout) {
+        clearCart();
+    }
+    
     showToast('Order placed successfully!', 'success');
     setTimeout(() => {
         checkoutOverlay.classList.remove('active');
@@ -365,14 +424,24 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// --- 11. Newsletter ---
+// --- 11. FAQ Accordion ---
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+    });
+});
+
+// --- 12. Newsletter ---
 document.getElementById('newsletterForm').addEventListener('submit', (e) => {
     e.preventDefault();
     showToast('Welcome to Bedre! Check your inbox for 10% off.', 'success');
     e.target.reset();
 });
 
-// --- 12. Reveal Animations & Global Events ---
+// --- 13. Reveal Animations & Global Events ---
 window.addEventListener('load', () => {
     loadCart();
     const observer = new IntersectionObserver((entries) => {

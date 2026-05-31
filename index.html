@@ -39,6 +39,10 @@
     </header>
     
     <nav class="mobile-nav" id="mobileNav">
+        <div class="search-container mobile-search" style="margin-bottom: 1rem;">
+            <input type="text" id="mobileSearchInput" placeholder="Search shoes..." autocomplete="off" style="width: 100%;">
+            <div class="search-results" id="mobileSearchResults"></div>
+        </div>
         <a href="#men-collection">Men</a>
         <a href="#women-collection">Women</a>
         <a href="#categories">Collections</a>
@@ -57,7 +61,7 @@
         <div class="cart-footer">
             <button class="clear-cart-btn" id="clearCartBtn">Clear Cart</button>
             <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
-            <button class="btn btn-primary trigger-checkout" style="width: 100%">Proceed to Checkout</button>
+            <button id="cartCheckoutBtn" class="btn btn-primary trigger-checkout" style="width: 100%">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -377,6 +381,31 @@
                                 <div class="stat-label">Average Rating</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="section-padding" id="faq" style="background: var(--bg-primary);">
+            <div class="container">
+                <h2 class="text-center reveal" style="margin-bottom: 3rem;">Frequently Asked Questions</h2>
+                <div class="faq-grid" style="max-width: 800px; margin: 0 auto;">
+                    <div class="faq-item reveal">
+                        <button class="faq-question">What is your return policy? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">We offer a 30-day wear test. If your Bedre shoes aren't the most comfortable pair you own, return them for a full refund, even if you've worn them outside.</div>
+                    </div>
+                    <div class="faq-item reveal" style="transition-delay: 0.1s;">
+                        <button class="faq-question">Do your shoes run true to size? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">Most of our models run true to size. However, the Bedre Zenith runs a half-size large. Check the 'Fit/Length' detail on each product page for specific guidance.</div>
+                    </div>
+                    <div class="faq-item reveal" style="transition-delay: 0.2s;">
+                        <button class="faq-question">Do you ship internationally? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">Yes, we ship globally! Free standard shipping applies to all orders over $150 worldwide. International deliveries typically take 5-10 business days.</div>
+                    </div>
+                    <div class="faq-item reveal" style="transition-delay: 0.3s;">
+                        <button class="faq-question">Are the materials really sustainable? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">Absolutely. We use 92% recycled materials across our lineup, including post-consumer ocean plastics for our AeroWeave mesh and natural rubber for outsoles.</div>
                     </div>
                 </div>
             </div>
