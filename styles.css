@@ -183,7 +183,7 @@ header {
 
 /* Product Details Modal */
 .product-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: flex-start; }
-.product-modal-img img { border-radius: var(--radius); background: var(--bg-primary); padding: 2rem; width: 100%; transition: var(--transition); }
+#modalImg { border-radius: var(--radius); background: var(--bg-primary); padding: 2rem; width: 100%; transition: var(--transition); }
 
 /* Gallery Thumbs */
 .product-gallery { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
