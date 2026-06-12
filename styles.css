@@ -310,13 +310,16 @@ header {
     filter: blur(40px); pointer-events: none;
 }
 .hero-image {
-    width: 100%; transform: rotate(-15deg);
-    filter: drop-shadow(0 25px 35px rgba(0,0,0,0.12));
+    width: 100%; 
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-primary);
     animation: float 6s ease-in-out infinite;
 }
 @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(-15deg); }
-    50% { transform: translateY(-18px) rotate(-12deg); }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-18px); }
 }
 
 /* --- Product Cards --- */
