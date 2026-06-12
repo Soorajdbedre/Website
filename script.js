@@ -386,16 +386,6 @@ function openProductModal(productId) {
     document.getElementById('modalFeatures').innerText = product.features;
     document.getElementById('modalRating').innerText   = `★ ${product.rating.toFixed(1)} (${product.reviewsCount} reviews)`;
 
-    // Render Gallery
-    const gallery = document.getElementById('modalGallery');
-    let galHtml = '';
-    product.images.forEach((img, idx) => {
-        galHtml += `<div class="gallery-thumb ${idx===0 ? 'active':''}" onclick="setMainImg('${img}', this)">
-                        <img src="${img}" alt="Thumbnail">
-                    </div>`;
-    });
-    gallery.innerHTML = galHtml;
-
     // Render Reviews
     const reviewsBox = document.getElementById('modalReviews');
     let revHtml = '';
@@ -428,12 +418,6 @@ function openProductModal(productId) {
     relatedGrid.innerHTML = relHtml;
 
     productOverlay.classList.add('active');
-}
-
-window.setMainImg = function(src, el) {
-    document.getElementById('modalImg').src = src;
-    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
 }
 
 document.querySelectorAll('.view-product-btn').forEach(btn => {

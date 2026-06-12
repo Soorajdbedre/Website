@@ -185,15 +185,6 @@ header {
 .product-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: flex-start; }
 #modalImg { border-radius: var(--radius); background: var(--bg-primary); padding: 2rem; width: 100%; transition: var(--transition); }
 
-/* Gallery Thumbs */
-.product-gallery { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
-.gallery-thumb { 
-    width: 60px; height: 60px; border-radius: var(--radius-sm); border: 2px solid transparent; 
-    cursor: pointer; transition: var(--transition); background: var(--bg-primary); padding: 0.3rem; 
-}
-.gallery-thumb.active { border-color: var(--accent); }
-.gallery-thumb img { width: 100%; height: 100%; object-fit: contain; }
-
 /* Reviews */
 .product-rating { font-size: 0.85rem; color: #eab308; font-weight: 600; margin-top: 0.2rem; }
 .review-mock { padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-sm); margin-top: 1rem; font-size: 0.9rem; }
