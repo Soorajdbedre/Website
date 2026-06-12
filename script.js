@@ -1,12 +1,76 @@
 // --- 1. Product Database (Source of Truth) ---
 const products = [
-    { id: 'nova',   name: 'Bedre Nova',     category: 'Running',     price: 165, img: 'shoe2.png', desc: 'Lightweight performance runner built for speed and endurance.',               materials: 'AeroWeave Mesh, Recycled Rubber',  fit: 'True to Size, Snug heel',      features: 'Marathons, Daily Jogs' },
-    { id: 'arc',    name: 'Bedre Arc',      category: 'Lifestyle',   price: 140, img: 'shoe3.png', desc: 'The ultimate everyday shoe. Minimalist aesthetic with maximum comfort.',     materials: 'Organic Cotton, CloudFoam',        fit: 'Slightly wide, roomy toe box', features: 'Office wear, City Walking' },
-    { id: 'core',   name: 'Bedre Core',     category: 'Casual',      price: 125, img: 'shoe4.png', desc: 'A stripped-down classic. Essential design for an uncomplicated wardrobe.',   materials: 'Vegan Leather, EVA sole',          fit: 'True to size',                 features: 'Weekend outings, Casual fridays' },
-    { id: 'aura',   name: 'Bedre Aura',     category: 'Running',     price: 170, img: 'shoe5.png', desc: 'High-rebound cushioning that turns impact into forward momentum.',           materials: 'Knit fabric, Kinetic Foam',        fit: 'Snug performance fit',         features: 'Track running, High-impact sports' },
-    { id: 'luna',   name: 'Bedre Luna',     category: 'Lifestyle',   price: 145, img: 'shoe6.png', desc: 'Sleek slip-on design for people on the move.',                              materials: 'Stretchy Neoprene',               fit: 'Molds to foot shape',          features: 'Travel, Everyday errands' },
-    { id: 'zenith', name: 'Bedre Zenith',   category: 'Casual',      price: 130, img: 'shoe7.png', desc: 'Retro-inspired lines packed with modern orthopedic support.',               materials: 'Suede accents, Rubberized mesh',   fit: 'Runs half-size large',         features: 'All-day standing, Casual events' },
-    { id: 'apex',   name: 'Bedre Apex Pro', category: 'Performance', price: 185, img: 'shoe8.png', desc: 'Our flagship model. Carbon-infused plate for elite athletic output.',       materials: 'Carbon Fiber, Zero-Gravity Foam', fit: 'Lockdown fit, precise length', features: 'Competitive racing, CrossFit' }
+    { 
+        id: 'nova', name: 'Bedre Nova', category: 'Running', price: 165, img: 'shoe2.png', 
+        images: ['shoe2.png', 'shoe3.png', 'shoe4.png'], rating: 4.8, reviewsCount: 124,
+        desc: 'Lightweight performance runner built for speed and endurance.', 
+        materials: 'AeroWeave Mesh, Recycled Rubber', fit: 'True to Size, Snug heel', features: 'Marathons, Daily Jogs',
+        reviews: [
+            { author: 'Sarah J.', rating: 5, text: 'Best running shoes I have ever owned. Felt like running on clouds.' },
+            { author: 'Mike T.', rating: 4, text: 'Great fit, really responsive on the track.' }
+        ]
+    },
+    { 
+        id: 'arc', name: 'Bedre Arc', category: 'Lifestyle', price: 140, img: 'shoe3.png', 
+        images: ['shoe3.png', 'shoe4.png', 'shoe2.png'], rating: 4.9, reviewsCount: 89,
+        desc: 'The ultimate everyday shoe. Minimalist aesthetic with maximum comfort.', 
+        materials: 'Organic Cotton, CloudFoam', fit: 'Slightly wide, roomy toe box', features: 'Office wear, City Walking',
+        reviews: [
+            { author: 'David L.', rating: 5, text: 'I wear these to the office every day. Unbelievable comfort.' },
+            { author: 'Emma W.', rating: 5, text: 'Sleek design and super lightweight.' }
+        ]
+    },
+    { 
+        id: 'core', name: 'Bedre Core', category: 'Casual', price: 125, img: 'shoe4.png', 
+        images: ['shoe4.png', 'shoe2.png', 'shoe3.png'], rating: 4.7, reviewsCount: 210,
+        desc: 'A stripped-down classic. Essential design for an uncomplicated wardrobe.', 
+        materials: 'Vegan Leather, EVA sole', fit: 'True to size', features: 'Weekend outings, Casual fridays',
+        reviews: [
+            { author: 'Chris P.', rating: 4, text: 'Solid casual shoe, goes with everything.' },
+            { author: 'Anna K.', rating: 5, text: 'My go-to weekend shoe. Easy to clean.' }
+        ]
+    },
+    { 
+        id: 'aura', name: 'Bedre Aura', category: 'Running', price: 170, img: 'shoe5.png', 
+        images: ['shoe5.png', 'shoe6.png', 'shoe7.png'], rating: 4.9, reviewsCount: 156,
+        desc: 'High-rebound cushioning that turns impact into forward momentum.', 
+        materials: 'Knit fabric, Kinetic Foam', fit: 'Snug performance fit', features: 'Track running, High-impact sports',
+        reviews: [
+            { author: 'Jordan M.', rating: 5, text: 'Pushed my 5k personal best in these. Incredible energy return.' },
+            { author: 'Alex B.', rating: 5, text: 'Super supportive around the ankles.' }
+        ]
+    },
+    { 
+        id: 'luna', name: 'Bedre Luna', category: 'Lifestyle', price: 145, img: 'shoe6.png', 
+        images: ['shoe6.png', 'shoe7.png', 'shoe5.png'], rating: 4.6, reviewsCount: 92,
+        desc: 'Sleek slip-on design for people on the move.', 
+        materials: 'Stretchy Neoprene', fit: 'Molds to foot shape', features: 'Travel, Everyday errands',
+        reviews: [
+            { author: 'Taylor S.', rating: 4, text: 'Perfect for airports. Just slip on and off.' },
+            { author: 'Jamie D.', rating: 5, text: 'Very breathable and stylish.' }
+        ]
+    },
+    { 
+        id: 'zenith', name: 'Bedre Zenith', category: 'Casual', price: 130, img: 'shoe7.png', 
+        images: ['shoe7.png', 'shoe5.png', 'shoe6.png'], rating: 4.8, reviewsCount: 341,
+        desc: 'Retro-inspired lines packed with modern orthopedic support.', 
+        materials: 'Suede accents, Rubberized mesh', fit: 'Runs half-size large', features: 'All-day standing, Casual events',
+        reviews: [
+            { author: 'Sam G.', rating: 5, text: 'I stand all day for work and these saved my back.' },
+            { author: 'Riley H.', rating: 4, text: 'Looks retro but feels futuristic. Runs a bit big.' }
+        ]
+    },
+    { 
+        id: 'apex', name: 'Bedre Apex Pro', category: 'Performance', price: 185, img: 'shoe8.png', 
+        images: ['shoe8.png', 'shoe2.png', 'shoe5.png'], rating: 5.0, reviewsCount: 890,
+        desc: 'Our flagship model. Carbon-infused plate for elite athletic output.', 
+        materials: 'Carbon Fiber, Zero-Gravity Foam', fit: 'Lockdown fit, precise length', features: 'Competitive racing, CrossFit',
+        reviews: [
+            { author: 'Marcus F.', rating: 5, text: 'The ultimate performance shoe. You can feel the carbon plate propel you.' },
+            { author: 'Elena R.', rating: 5, text: 'Worth every penny. Built incredibly well.' },
+            { author: 'Tom W.', rating: 5, text: 'Smashed my marathon record.' }
+        ]
+    }
 ];
 
 // --- 2. State & DOM Elements ---
@@ -14,6 +78,8 @@ let cartItems = [];
 let selectedSize = null;
 let activeProductToBuy = null;
 let isBuyNowCheckout = false;
+let promoDiscount = 0; // percentage
+let currentCategoryFilter = null;
 
 const productOverlay  = document.getElementById('productOverlay');
 const checkoutOverlay = document.getElementById('checkoutOverlay');
@@ -23,6 +89,7 @@ const sizeError = document.getElementById('sizeError');
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileNav = document.getElementById('mobileNav');
 const backToTop = document.getElementById('backToTop');
+const themeToggle = document.getElementById('themeToggle');
 
 function showToast(message, type = 'info') {
     const container = document.getElementById('toastContainer');
@@ -32,6 +99,28 @@ function showToast(message, type = 'info') {
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3200);
 }
+
+// --- Dark Mode ---
+function initTheme() {
+    const savedTheme = localStorage.getItem('bedreTheme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '☀️';
+    }
+}
+initTheme();
+
+themeToggle.addEventListener('click', () => {
+    if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('bedreTheme', 'light');
+        themeToggle.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('bedreTheme', 'dark');
+        themeToggle.textContent = '☀️';
+    }
+});
 
 // --- 3. Cart Logic ---
 function getCartCount() { return cartItems.reduce((sum, item) => sum + item.quantity, 0); }
@@ -75,6 +164,9 @@ function updateQuantity(index, delta) {
 
 function clearCart() {
     cartItems = [];
+    promoDiscount = 0;
+    document.getElementById('promoCodeInput').value = '';
+    document.getElementById('discountDisplay').style.display = 'none';
     saveCart();
     renderCart();
 }
@@ -84,11 +176,12 @@ function renderCart() {
     const cartCountDisplay = document.getElementById('cartCountDisplay');
     const cartTotalEl = document.getElementById('cartTotal');
     const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+    const promoContainer = document.getElementById('promoContainer');
+    
     const count = getCartCount();
-    const total = getCartTotal();
+    let total = getCartTotal();
     
     cartCountDisplay.innerText = `(${count})`;
-    cartTotalEl.innerText = total;
     
     if (count === 0) {
         cartItemsEl.innerHTML = `
@@ -99,6 +192,9 @@ function renderCart() {
             </div>
         `;
         document.getElementById('clearCartBtn').style.display = 'none';
+        promoContainer.style.display = 'none';
+        document.getElementById('discountDisplay').style.display = 'none';
+        cartTotalEl.innerText = '0.00';
         if(cartCheckoutBtn) {
             cartCheckoutBtn.disabled = true;
             cartCheckoutBtn.style.opacity = '0.5';
@@ -108,11 +204,23 @@ function renderCart() {
     }
     
     document.getElementById('clearCartBtn').style.display = 'block';
+    promoContainer.style.display = 'flex';
     if(cartCheckoutBtn) {
         cartCheckoutBtn.disabled = false;
         cartCheckoutBtn.style.opacity = '1';
         cartCheckoutBtn.style.cursor = 'pointer';
     }
+
+    let discountAmt = 0;
+    if (promoDiscount > 0) {
+        discountAmt = total * promoDiscount;
+        total = total - discountAmt;
+        document.getElementById('discountDisplay').style.display = 'block';
+        document.getElementById('discountAmount').innerText = discountAmt.toFixed(2);
+    } else {
+        document.getElementById('discountDisplay').style.display = 'none';
+    }
+    cartTotalEl.innerText = total.toFixed(2);
 
     let html = '';
     cartItems.forEach((item, index) => {
@@ -131,12 +239,24 @@ function renderCart() {
             </div>
             <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between;">
                 <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Remove ${item.name}">✕</button>
-                <span class="cart-item-price">$${item.price * item.quantity}</span>
+                <span class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</span>
             </div>
         </div>`;
     });
     cartItemsEl.innerHTML = html;
 }
+
+// Promo Code Logic
+document.getElementById('applyPromoBtn').addEventListener('click', () => {
+    const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+    if (code === 'WELCOME10') {
+        promoDiscount = 0.10;
+        showToast('Promo code applied!', 'success');
+        renderCart();
+    } else if (code) {
+        showToast('Invalid promo code', 'error');
+    }
+});
 
 document.getElementById('modalAddToCart').addEventListener('click', () => {
     if (!activeProductToBuy) return;
@@ -244,7 +364,7 @@ function setupSearch(inputId, resultsId) {
 setupSearch('searchInput', 'searchResults');
 setupSearch('mobileSearchInput', 'mobileSearchResults');
 
-// --- 7. Product Details Modal ---
+// --- 7. Product Details Modal (Gallery, Reviews, Cross-sell) ---
 function openProductModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
@@ -255,7 +375,8 @@ function openProductModal(productId) {
     sizeGrid.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected')); 
     sizeError.classList.remove('visible');
 
-    document.getElementById('modalImg').src           = product.img;
+    const modalImg = document.getElementById('modalImg');
+    modalImg.src = product.img;
     document.getElementById('modalName').innerText    = product.name;
     document.getElementById('modalCat').innerText     = product.category;
     document.getElementById('modalPrice').innerText   = `$${product.price}`;
@@ -263,8 +384,56 @@ function openProductModal(productId) {
     document.getElementById('modalMaterial').innerText = product.materials;
     document.getElementById('modalFit').innerText      = product.fit;
     document.getElementById('modalFeatures').innerText = product.features;
+    document.getElementById('modalRating').innerText   = `★ ${product.rating.toFixed(1)} (${product.reviewsCount} reviews)`;
+
+    // Render Gallery
+    const gallery = document.getElementById('modalGallery');
+    let galHtml = '';
+    product.images.forEach((img, idx) => {
+        galHtml += `<div class="gallery-thumb ${idx===0 ? 'active':''}" onclick="setMainImg('${img}', this)">
+                        <img src="${img}" alt="Thumbnail">
+                    </div>`;
+    });
+    gallery.innerHTML = galHtml;
+
+    // Render Reviews
+    const reviewsBox = document.getElementById('modalReviews');
+    let revHtml = '';
+    product.reviews.forEach(r => {
+        let stars = '';
+        for(let i=0; i<5; i++) { stars += (i < r.rating) ? '★' : '☆'; }
+        revHtml += `
+            <div class="review-mock">
+                <div class="review-author">${r.author}</div>
+                <div class="review-stars">${stars}</div>
+                <div>${r.text}</div>
+            </div>
+        `;
+    });
+    reviewsBox.innerHTML = revHtml;
+
+    // Render Related Products (Cross-sell)
+    const relatedGrid = document.getElementById('relatedProductsGrid');
+    const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3);
+    let relHtml = '';
+    related.forEach(p => {
+        relHtml += `
+            <div class="product-card" onclick="openProductModal('${p.id}')" style="cursor:pointer; padding: 1rem;">
+                <div class="product-img" style="margin-bottom: 0.5rem; padding: 1rem;"><img src="${p.img}" alt="${p.name}"></div>
+                <div class="product-name" style="font-size: 0.95rem;">${p.name}</div>
+                <div class="product-price" style="font-size: 0.95rem;">$${p.price}</div>
+            </div>
+        `;
+    });
+    relatedGrid.innerHTML = relHtml;
 
     productOverlay.classList.add('active');
+}
+
+window.setMainImg = function(src, el) {
+    document.getElementById('modalImg').src = src;
+    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
 }
 
 document.querySelectorAll('.view-product-btn').forEach(btn => {
@@ -278,36 +447,58 @@ document.getElementById('closeProductModal').addEventListener('click', () => {
     productOverlay.classList.remove('active');
 });
 
-// --- 8. Category Filtering View ---
-function openCategoryModal(category) {
-    document.getElementById('categoryModalTitle').innerText = `${category} Collection`;
+// --- 8. Category Filtering & Sorting ---
+function renderCategoryGrid(filtered) {
     const grid = document.getElementById('categoryModalGrid');
-    grid.innerHTML = '';
-    const filtered = products.filter(p => p.category === category);
-
     if (filtered.length === 0) {
-        grid.innerHTML = `<p style="grid-column:1/-1;font-size:1.2rem;">More ${category} styles dropping soon.</p>`;
-    } else {
-        let html = '';
-        filtered.forEach(p => {
-            html += `
-                <div class="product-card" data-id="${p.id}" onclick="openProductModal('${p.id}')">
-                    <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">${p.name}</div>
-                            <div class="product-cat">${p.category}</div>
-                        </div>
-                        <div class="product-price">$${p.price}</div>
-                    </div>
-                    <button class="btn btn-secondary" style="width:100%">View Details</button>
-                </div>
-            `;
-        });
-        grid.innerHTML = html;
+        grid.innerHTML = `<p style="grid-column:1/-1;font-size:1.2rem;">More styles dropping soon.</p>`;
+        return;
     }
+    let html = '';
+    filtered.forEach(p => {
+        html += `
+            <div class="product-card" data-id="${p.id}" onclick="openProductModal('${p.id}')">
+                <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-rating">★ ${p.rating.toFixed(1)}</div>
+                        <div class="product-cat">${p.category}</div>
+                    </div>
+                    <div class="product-price">$${p.price}</div>
+                </div>
+                <button class="btn btn-secondary" style="width:100%">View Details</button>
+            </div>
+        `;
+    });
+    grid.innerHTML = html;
+}
+
+function openCategoryModal(category) {
+    currentCategoryFilter = category;
+    document.getElementById('categoryModalTitle').innerText = `${category} Collection`;
+    document.getElementById('sortSelect').value = 'featured'; // reset
+    
+    const filtered = products.filter(p => p.category === category);
+    renderCategoryGrid(filtered);
     categoryOverlay.classList.add('active');
 }
+
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+    const sortType = e.target.value;
+    let filtered = products.filter(p => p.category === currentCategoryFilter);
+    
+    if (sortType === 'price-asc') {
+        filtered.sort((a,b) => a.price - b.price);
+    } else if (sortType === 'price-desc') {
+        filtered.sort((a,b) => b.price - a.price);
+    } else if (sortType === 'name-asc') {
+        filtered.sort((a,b) => a.name.localeCompare(b.name));
+    }
+    // 'featured' maintains default array order
+
+    renderCategoryGrid(filtered);
+});
 
 document.querySelectorAll('.filter-category').forEach(card => {
     card.addEventListener('click', (e) => {
@@ -321,15 +512,36 @@ document.getElementById('closeCategoryModal').addEventListener('click', () => {
     categoryOverlay.classList.remove('active');
     document.getElementById('categoryModalGrid').innerHTML = '';
     document.getElementById('categoryModalTitle').innerText = '';
+    currentCategoryFilter = null;
 });
 
-// --- 9. Checkout Flow ---
+// --- 9. Checkout Flow & Strict Validation ---
+// Card Number formatting (add space every 4 digits)
+document.getElementById('ccNum').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formatted = '';
+    for(let i=0; i<value.length; i++) {
+        if(i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+    }
+    e.target.value = formatted;
+});
+
+// Expiry formatting (add slash)
+document.getElementById('ccExp').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 2) {
+        value = value.substring(0,2) + '/' + value.substring(2,4);
+    }
+    e.target.value = value;
+});
+
 function openCheckoutModal(amount) {
     productOverlay.classList.remove('active');
     document.getElementById('cartOverlay').classList.remove('active');
     document.getElementById('cartSidebar').classList.remove('active');
 
-    document.getElementById('checkoutTotalDisplay').innerText = amount;
+    document.getElementById('checkoutTotalDisplay').innerText = amount.toFixed(2);
     checkoutOverlay.classList.add('active');
 }
 
@@ -341,7 +553,6 @@ document.querySelectorAll('.trigger-checkout').forEach(btn => {
 
         if (e.target.id === 'modalBuyNow' && activeProductToBuy) {
             if (!validateSize()) return;
-            // DO NOT ADD TO CART, just buy this item directly
             checkoutAmount = activeProductToBuy.price;
             isBuyNowCheckout = true;
         } else {
@@ -350,7 +561,9 @@ document.querySelectorAll('.trigger-checkout').forEach(btn => {
                 const product = products.find(p => p.id === parentWithId.getAttribute('data-id'));
                 if (product) checkoutAmount = product.price;
             } else if (getCartTotal() > 0) {
-                checkoutAmount = getCartTotal();
+                // Apply promo discount if any
+                let total = getCartTotal();
+                checkoutAmount = total - (total * promoDiscount);
             } else {
                 document.getElementById('categories').scrollIntoView({ behavior: 'smooth' });
                 return;
@@ -382,7 +595,7 @@ document.getElementById('checkoutForm').addEventListener('submit', (e) => {
         successEl.classList.remove('active');
         document.getElementById('checkoutFormContent').style.display = 'block';
         e.target.reset();
-    }, 3000);
+    }, 4000);
 });
 
 // --- 10. Close Modals (Click Outside & Escape) ---
@@ -414,6 +627,7 @@ document.addEventListener('keydown', (e) => {
             categoryOverlay.classList.remove('active');
             document.getElementById('categoryModalGrid').innerHTML = '';
             document.getElementById('categoryModalTitle').innerText = '';
+            currentCategoryFilter = null;
         } else if (document.getElementById('cartSidebar').classList.contains('active')) {
             closeCart();
         } else if (mobileNav.classList.contains('active')) {

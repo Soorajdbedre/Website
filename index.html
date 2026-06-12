@@ -27,6 +27,7 @@
             </nav>
             <div class="nav-actions">
                 <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">☰</button>
+                <button id="themeToggle" class="btn btn-secondary nav-btn" style="padding: 0.5rem; border-radius: 50%; width: 38px; height: 38px; display: flex; justify-content: center; align-items: center;" aria-label="Toggle dark mode">🌙</button>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search shoes..." autocomplete="off">
                     <div class="search-results" id="searchResults"></div>
@@ -59,6 +60,12 @@
             <p class="empty-cart-msg">Your cart is currently empty.</p>
         </div>
         <div class="cart-footer">
+            <div class="promo-container" id="promoContainer" style="display:flex; gap:0.5rem; margin-bottom: 1rem;">
+                <input type="text" id="promoCodeInput" placeholder="Promo code (try WELCOME10)" style="flex:1; padding:0.6rem; border:1px solid var(--border); border-radius:var(--radius-sm); font-family:inherit; background: var(--bg-secondary); color: var(--text-primary); outline:none;">
+                <button id="applyPromoBtn" class="btn btn-secondary" style="padding:0.5rem 1rem;">Apply</button>
+            </div>
+            <div class="discount-display" id="discountDisplay" style="color: #16a34a; font-size: 0.9rem; margin-bottom: 0.5rem; display:none;">Discount applied: -$<span id="discountAmount">0</span></div>
+            
             <button class="clear-cart-btn" id="clearCartBtn">Clear Cart</button>
             <div class="cart-total">Total: $<span id="cartTotal">0</span></div>
             <button id="cartCheckoutBtn" class="btn btn-primary trigger-checkout" style="width: 100%">Proceed to Checkout</button>
@@ -71,10 +78,12 @@
             <div class="product-modal-grid">
                 <div class="product-modal-img">
                     <img id="modalImg" src="shoe2.png" alt="Product">
+                    <div class="product-gallery" id="modalGallery"></div>
                 </div>
                 <div class="product-modal-info">
-                    <div class="subtitle" id="modalCat">Category</div>
-                    <h2 id="modalName">Product Name</h2>
+                    <div class="subtitle" id="modalCat" style="margin-bottom: 0.5rem;">Category</div>
+                    <h2 id="modalName" style="margin-bottom: 0.2rem;">Product Name</h2>
+                    <div class="product-rating" id="modalRating" style="margin-bottom: 1rem; font-size: 0.95rem; color: #eab308; font-weight: 600;"></div>
                     <h3 class="product-price" id="modalPrice">$0</h3>
                     <p id="modalDesc" style="margin: 1.5rem 0; color: var(--text-secondary);"></p>
                     
@@ -104,10 +113,20 @@
                     </div>
 
                     <div class="modal-actions">
-                        <button class="btn btn-secondary" id="modalAddToCart">Add to Cart</button>
-                        <button class="btn btn-primary trigger-checkout" id="modalBuyNow">Buy Now</button>
+                        <button class="btn btn-secondary" id="modalAddToCart" style="flex:1;">Add to Cart</button>
+                        <button class="btn btn-primary trigger-checkout" id="modalBuyNow" style="flex:1;">Buy Now</button>
+                    </div>
+                    
+                    <div class="reviews-section" style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem;">Customer Reviews</h4>
+                        <div id="modalReviews"></div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="related-products" style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">You Might Also Like</h3>
+                <div class="related-grid" id="relatedProductsGrid"></div>
             </div>
         </div>
     </div>
@@ -115,7 +134,15 @@
     <div class="app-overlay" id="categoryOverlay" role="dialog" aria-label="Category products" aria-modal="true">
         <div class="modal-content category-modal">
             <button class="close-btn modal-close" id="closeCategoryModal" aria-label="Close">&times;</button>
-            <h2 id="categoryModalTitle" style="margin-bottom: 2rem; font-size: 2.5rem;">Category</h2>
+            <div class="category-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <h2 id="categoryModalTitle" style="font-size: 2.5rem; margin:0;">Category</h2>
+                <select id="sortSelect" style="padding: 0.6rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); font-family: inherit; font-size: 0.95rem; background: var(--bg-secondary); color: var(--text-primary); outline:none;">
+                    <option value="featured">Sort by: Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                </select>
+            </div>
             <div class="featured-grid" id="categoryModalGrid">
             </div>
         </div>
@@ -129,18 +156,27 @@
                 <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please enter your details to complete the purchase.</p>
                 
                 <form id="checkoutForm">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Shipping Address</h4>
                     <div class="form-row">
                         <input type="text" placeholder="First Name" required>
                         <input type="text" placeholder="Last Name" required>
                     </div>
-                    <input type="email" placeholder="Email Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
-                    <input type="text" placeholder="Shipping Address" required style="width: 100%; margin-bottom: 1rem; padding: 1rem; border-radius: 8px; border: 1px solid #ccc;">
+                    <input type="email" placeholder="Email Address" required style="width: 100%; margin-bottom: 0.75rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); outline:none;">
+                    <input type="text" placeholder="Street Address" required style="width: 100%; margin-bottom: 0.75rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); outline:none;">
                     <div class="form-row">
                         <input type="text" placeholder="City" required>
-                        <input type="text" placeholder="ZIP Code" required>
+                        <input type="text" placeholder="ZIP Code" required pattern="^\d{5}(-\d{4})?$">
                     </div>
                     
-                    <div style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-primary); border-radius: 8px;">
+                    <h4 style="margin: 1.5rem 0 1rem; border-top: 1px solid var(--border); padding-top: 1.5rem; color: var(--text-primary);">Payment Information</h4>
+                    <input type="text" id="ccName" placeholder="Name on Card" required style="width: 100%; margin-bottom: 0.75rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); outline:none;">
+                    <input type="text" id="ccNum" placeholder="Card Number (XXXX XXXX XXXX XXXX)" maxlength="19" required pattern="\d{4}\s\d{4}\s\d{4}\s\d{4}" style="width: 100%; margin-bottom: 0.75rem; padding: 0.85rem 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); outline:none;">
+                    <div class="form-row">
+                        <input type="text" id="ccExp" placeholder="Expiry (MM/YY)" maxlength="5" required pattern="(0[1-9]|1[0-2])\/[0-9]{2}">
+                        <input type="text" id="ccCvv" placeholder="CVV" maxlength="4" required pattern="\d{3,4}">
+                    </div>
+                    
+                    <div style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border);">
                         <h4 style="margin-bottom: 1rem;">Order Summary</h4>
                         <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
                             <span>Total to Pay:</span>
@@ -148,7 +184,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Order</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Order & Pay</button>
                 </form>
             </div>
             
@@ -156,14 +192,14 @@
                 <div class="success-checkmark">
                     <svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg>
                 </div>
-                <h2>Order Confirmed!</h2>
-                <p>Thank you for your purchase. A confirmation email will be sent shortly.</p>
+                <h2>Payment Successful!</h2>
+                <p>Thank you for your purchase. A confirmation email with your receipt will be sent shortly.</p>
             </div>
         </div>
     </div>
 
     <main>
-        <!-- HERO SECTION — shoe1.png (unchanged) -->
+        <!-- HERO SECTION — shoe1.png -->
         <section class="hero" id="hero">
             <div class="container hero-grid">
                 <div class="hero-content reveal">
@@ -182,13 +218,11 @@
         </section>
 
         <!-- MEN'S COLLECTION -->
-        <!-- Nova = Running (shoe2.png) | Arc = Lifestyle (shoe3.png) | Core = Casual (shoe4.png) -->
         <section class="section-padding" id="men-collection">
             <div class="container">
                 <h2 class="text-center reveal">Men's Collection</h2>
                 <div class="featured-grid">
 
-                    <!-- Bedre Nova — Men's Running -->
                     <div class="product-card reveal" data-id="nova">
                         <div class="product-img">
                             <img src="shoe2.png" alt="Bedre Nova" loading="lazy">
@@ -196,6 +230,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Nova</div>
+                                <div class="product-rating">★ 4.8 (124)</div>
                                 <div class="product-cat">Running</div>
                             </div>
                             <div class="product-price">$165</div>
@@ -203,7 +238,6 @@
                         <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
 
-                    <!-- Bedre Arc — Men's Lifestyle -->
                     <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="arc">
                         <div class="product-img">
                             <img src="shoe3.png" alt="Bedre Arc" loading="lazy">
@@ -211,6 +245,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Arc</div>
+                                <div class="product-rating">★ 4.9 (89)</div>
                                 <div class="product-cat">Lifestyle</div>
                             </div>
                             <div class="product-price">$140</div>
@@ -218,7 +253,6 @@
                         <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
 
-                    <!-- Bedre Core — Men's Casual -->
                     <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="core">
                         <div class="product-img">
                             <img src="shoe4.png" alt="Bedre Core" loading="lazy">
@@ -226,6 +260,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Core</div>
+                                <div class="product-rating">★ 4.7 (210)</div>
                                 <div class="product-cat">Casual</div>
                             </div>
                             <div class="product-price">$125</div>
@@ -238,13 +273,11 @@
         </section>
 
         <!-- WOMEN'S COLLECTION -->
-        <!-- Aura = Running (shoe5.png) | Luna = Lifestyle (shoe6.png) | Zenith = Casual (shoe7.png) -->
         <section class="section-padding" id="women-collection" style="background: var(--bg-secondary);">
             <div class="container">
                 <h2 class="text-center reveal">Women's Collection</h2>
                 <div class="featured-grid">
 
-                    <!-- Bedre Aura — Women's Running -->
                     <div class="product-card reveal" data-id="aura">
                         <div class="product-img">
                             <img src="shoe5.png" alt="Bedre Aura" loading="lazy">
@@ -252,6 +285,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Aura</div>
+                                <div class="product-rating">★ 4.9 (156)</div>
                                 <div class="product-cat">Running</div>
                             </div>
                             <div class="product-price">$170</div>
@@ -259,7 +293,6 @@
                         <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
 
-                    <!-- Bedre Luna — Women's Lifestyle -->
                     <div class="product-card reveal" style="transition-delay: 0.1s;" data-id="luna">
                         <div class="product-img">
                             <img src="shoe6.png" alt="Bedre Luna" loading="lazy">
@@ -267,6 +300,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Luna</div>
+                                <div class="product-rating">★ 4.6 (92)</div>
                                 <div class="product-cat">Lifestyle</div>
                             </div>
                             <div class="product-price">$145</div>
@@ -274,7 +308,6 @@
                         <button class="btn btn-secondary view-product-btn">View Product</button>
                     </div>
 
-                    <!-- Bedre Zenith — Women's Casual -->
                     <div class="product-card reveal" style="transition-delay: 0.2s;" data-id="zenith">
                         <div class="product-img">
                             <img src="shoe7.png" alt="Bedre Zenith" loading="lazy">
@@ -282,6 +315,7 @@
                         <div class="product-info">
                             <div>
                                 <div class="product-name">Bedre Zenith</div>
+                                <div class="product-rating">★ 4.8 (341)</div>
                                 <div class="product-cat">Casual</div>
                             </div>
                             <div class="product-price">$130</div>
@@ -293,7 +327,7 @@
             </div>
         </section>
 
-        <!-- BESTSELLER — Apex Pro = Performance (shoe8.png) -->
+        <!-- BESTSELLER -->
         <section class="section-padding best-seller">
             <div class="container best-seller-grid">
                 <div class="best-seller-img reveal">
@@ -302,6 +336,7 @@
                 <div class="best-seller-content reveal" data-id="apex">
                     <div class="subtitle" style="color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">Bestseller</div>
                     <h2 class="product-name">Bedre Apex Pro</h2>
+                    <div class="product-rating" style="margin-bottom: 1rem;">★ 5.0 (890 reviews)</div>
                     <p class="subtitle">Our flagship model engineered for the modern athlete. Seamlessly blending high-impact support with ultra-lightweight breathable fabrics.</p>
                     <ul class="features-list">
                         <li>AeroWeave™ breathable upper</li>
@@ -318,36 +353,26 @@
         </section>
 
         <!-- SHOP BY CATEGORY -->
-        <!-- Category banner images use the same shoe images for consistency -->
         <section class="section-padding" id="categories">
             <div class="container">
                 <h2 class="text-center reveal" style="margin-bottom: 3rem;">Shop by Category</h2>
                 <div class="cat-grid">
-
-                    <!-- Running category banner — uses Nova (shoe2.png) -->
                     <div class="cat-card reveal filter-category" data-category="Running">
                         <img src="shoe2.png" alt="Running Shoes" loading="lazy">
                         <div class="cat-overlay"><h3>Running</h3></div>
                     </div>
-
-                    <!-- Casual category banner — uses Core (shoe4.png) -->
                     <div class="cat-card reveal filter-category" style="transition-delay: 0.1s;" data-category="Casual">
                         <img src="shoe4.png" alt="Casual Shoes" loading="lazy">
                         <div class="cat-overlay"><h3>Casual</h3></div>
                     </div>
-
-                    <!-- Lifestyle category banner — uses Arc (shoe3.png) -->
                     <div class="cat-card reveal filter-category" style="transition-delay: 0.2s;" data-category="Lifestyle">
                         <img src="shoe3.png" alt="Lifestyle Shoes" loading="lazy">
                         <div class="cat-overlay"><h3>Lifestyle</h3></div>
                     </div>
-
-                    <!-- Performance category banner — uses Apex Pro (shoe8.png) -->
                     <div class="cat-card reveal filter-category" style="transition-delay: 0.3s;" data-category="Performance">
                         <img src="shoe8.png" alt="Performance Shoes" loading="lazy">
                         <div class="cat-overlay"><h3>Performance</h3></div>
                     </div>
-
                 </div>
             </div>
         </section>
