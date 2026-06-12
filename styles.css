@@ -14,9 +14,9 @@
     --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.08);
     --shadow-glow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    --radius: 14px;
-    --radius-sm: 8px;
-    --radius-full: 50px;
+    --radius: 28px;
+    --radius-sm: 18px;
+    --radius-full: 9999px;
     --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
